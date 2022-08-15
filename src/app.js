@@ -5,7 +5,7 @@ import "./index.css";
 
 const App = () => {
   const [expenses, setExpenses] = useState([]);
-
+  console.log("test commit");
   return (
     <>
       <NewExpense updateExpenses={setExpenses} />
