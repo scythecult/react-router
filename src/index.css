@@ -1,0 +1,11 @@
+*,
+*::before,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background-color: #808080;
+}
