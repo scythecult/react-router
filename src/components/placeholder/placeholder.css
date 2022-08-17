@@ -1,14 +1,10 @@
-.expense-container {
-  width: 50rem;
-  max-width: 95%;
+.expense-list-placeholder {
   margin: 2rem auto;
   padding: 1rem;
+  font-size: 3rem;
+  text-align: center;
+  color: #ffffff;
   border-radius: 12px;
   background-color: rgb(31, 31, 31);
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
-}
-
-.expense-list {
-  padding: 0;
-  margin: 0;
 }
