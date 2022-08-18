@@ -19,7 +19,7 @@ const ExpenseList = (props) => {
 
   return (
     <div className="expense-container">
-      <ExpenseFiler setSelectedYear={setSelectedYear} />
+      {!expenses.length ? null : <ExpenseFiler setSelectedYear={setSelectedYear} />}
       <ul className="expense-list">
         {!expenses.length ? (
           <Placeholder />
