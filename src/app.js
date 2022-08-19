@@ -8,7 +8,7 @@ const App = () => {
 
   return (
     <>
-      <NewExpense updateExpenses={setExpenses} />
+      <NewExpense onUpdateExpenses={setExpenses} />
       <Expenses expenses={expenses} />;
     </>
   );

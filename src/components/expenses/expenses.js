@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Filer } from "../filter/filter";
+import { Filter } from "../filter/filter";
 import { ExpensesList } from "../expenses-list/expenses-list";
 import "./expenses.css";
 import { Placeholder } from "../placeholder/placeholder";
@@ -23,7 +23,7 @@ const Expenses = (props) => {
         <Placeholder />
       ) : (
         <>
-          <Filer setSelectedYear={setSelectedYear} selectedYear={selectedYear} />
+          <Filter onSelectedYearChange={setSelectedYear} selectedYear={selectedYear} />
           <ExpensesList items={filteredExpenses} />
         </>
       )}

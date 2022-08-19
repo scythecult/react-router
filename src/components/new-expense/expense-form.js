@@ -8,17 +8,18 @@ const initialState = { title: "", amount: "", date: "" };
 const ExpenseForm = (props) => {
   const [expense, setExpense] = useState(initialState);
   const { title, amount, date } = expense;
-  const { updateExpenses } = props;
+  const { onUpdateExpenses, onButtonClick } = props;
 
-  const submitHandler = (evt) => {
+  const onFormSubmit = (evt) => {
     evt.preventDefault();
-    updateExpenses((state) => [...state, createExpense(expense)]);
+    onUpdateExpenses((state) => [...state, createExpense(expense)]);
 
     setExpense(initialState);
+    onButtonClick(false);
   };
 
   return (
-    <form className="expense-form" onSubmit={submitHandler}>
+    <form className="expense-form" onSubmit={onFormSubmit}>
       <div className="new-expense__controls">
         <div className="new-expense__control">
           <label>Title</label>
@@ -58,7 +59,12 @@ const ExpenseForm = (props) => {
           />
         </div>
         <div className="new-expense__actions">
-          <button type="submit">Add expense</button>
+          <button className="button" type="submit">
+            Add expense
+          </button>
+          <button className="button" type="button" onClick={() => onButtonClick(false)}>
+            Cancel
+          </button>
         </div>
       </div>
     </form>
