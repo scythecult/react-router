@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ExpenseList } from "./components/expense-list/expense-list";
+import { Expenses } from "./components/expenses/expenses";
 import { NewExpense } from "./components/new-expense/new-expense";
 import "./index.css";
 
@@ -9,7 +9,7 @@ const App = () => {
   return (
     <>
       <NewExpense updateExpenses={setExpenses} />
-      <ExpenseList expenses={expenses} />;
+      <Expenses expenses={expenses} />;
     </>
   );
 };
