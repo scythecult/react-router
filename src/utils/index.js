@@ -13,7 +13,7 @@ const createExpense = ({ date, title, amount }) => {
     key: date.toLocaleString(),
     date: new Date(date),
     title,
-    price: amount.toLocaleString(),
+    price: amount,
   };
 };
 
