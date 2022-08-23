@@ -1,0 +1,9 @@
+.user-item {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 26px;
+  font-size: 18px;
+  font-weight: 700;
+  border: 1px solid #c6c6c6;
+  border-radius: 6px;
+}
