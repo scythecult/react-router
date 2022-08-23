@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "../button/button";
 import { Card } from "../card/card";
 import styles from "./user-form.module.css";
 
@@ -15,9 +16,7 @@ const UserForm = () => {
           <span className={styles["user-form__title"]}>Age (Years)</span>
           <input className={styles["user-form__name-input"]} type={"number"} />
         </label>
-        <button className={styles["user-form__submit"]} type={"submit"}>
-          Add User
-        </button>
+        <Button type="submit">Add User</Button>
       </form>
     </Card>
   );

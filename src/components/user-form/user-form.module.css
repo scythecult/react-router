@@ -28,17 +28,3 @@
   border-color: #c6c6c6;
   border-radius: 6px;
 }
-
-.user-form__submit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 140px;
-  min-height: var(--children-height);
-  padding: 0;
-  font-weight: 700;
-  color: #ffffff;
-  border: none;
-  background-color: #500150;
-}
