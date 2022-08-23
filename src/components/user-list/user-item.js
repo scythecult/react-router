@@ -2,11 +2,11 @@ import React from "react";
 import styles from "./user-item.module.css";
 
 const UserItem = (props) => {
-  const { name, age } = props;
+  const { userName, userAge } = props;
 
   return (
     <p className={styles["user-item"]}>
-      {name} ({age} year old)
+      {userName} ({userAge} year old)
     </p>
   );
 };

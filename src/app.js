@@ -10,11 +10,27 @@ const users = [
 ];
 
 const App = () => {
+  const [users, setUsers] = useState([]);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const updateUsers = (user) => {
+    setUsers((prevUsers) => [...prevUsers, user]);
+  };
+
+  const modal = isError ? (
+    <Modal toggleModal={setIsError} message={errorMessage} />
+  ) : null;
+
   return (
     <div className={styles.app}>
-      <UserForm />
+      <UserForm
+        updateUsers={updateUsers}
+        toggleModal={setIsError}
+        updateErrorMessage={setErrorMessage}
+      />
       <UserList items={users} />
-      <Modal />
+      {modal}
     </div>
   );
 };
