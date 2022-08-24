@@ -4,11 +4,6 @@ import { Modal } from "./components/modal/modal";
 import { UserForm } from "./components/user-form/user-form";
 import { UserList } from "./components/user-list/user-list";
 
-const users = [
-  { name: "Ale", age: 35 },
-  { name: "Nataly", age: 30 },
-];
-
 const App = () => {
   const [users, setUsers] = useState([]);
   const [isError, setIsError] = useState(false);
