@@ -1,9 +1,0 @@
-.user-form {
-  --gap: 16px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  row-gap: var(--gap);
-  font-size: 18px;
-}
