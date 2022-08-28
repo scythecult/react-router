@@ -7,7 +7,7 @@ const Header = (props) => {
   return (
     <header className={styles.header}>
       <Logo />
-      <CartButton cartCount={20} />
+      <CartButton />
     </header>
   );
 };

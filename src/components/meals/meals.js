@@ -4,11 +4,15 @@ import { Card } from "../UI/card";
 import styles from "./meals.module.css";
 
 const Meals = (props) => {
+  const { meals } = props;
+
   return (
     <div className={styles.meals}>
       <Card>
         <ul>
-          <Meal />
+          {meals.map((meal) => (
+            <Meal key={meal.id} {...meal} />
+          ))}
         </ul>
       </Card>
     </div>

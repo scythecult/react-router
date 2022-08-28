@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../../cart-context/cart-context";
 import styles from "./cart-button.module.css";
 import { CartIcon } from "./cart-icon";
 
-const CartButton = (props) => {
-  const { cartCount } = props;
+const CartButton = () => {
+  const { cartCount } = useContext(CartContext);
 
   return (
     <button className={styles.button}>

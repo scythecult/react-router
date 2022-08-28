@@ -7,7 +7,12 @@ const Input = (props) => {
   return (
     <div className={styles.input}>
       <label htmlFor={label}>Amount</label>
-      <input id={label} type={type} onChange={handler} value={value} />
+      <input
+        id={label}
+        type={type}
+        onChange={(evt) => handler(evt.target.value)}
+        value={value}
+      />
     </div>
   );
 };
