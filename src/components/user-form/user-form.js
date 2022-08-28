@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "../button/button";
 import { Card } from "../card/card";
 import styles from "./user-form.module.css";
+import { UserInput } from "./user-input";
 
 const UserForm = (props) => {
   const [userName, setUserName] = useState("");
@@ -31,25 +32,18 @@ const UserForm = (props) => {
   return (
     <Card>
       <form className={styles["user-form"]} onSubmit={onFormSubmit}>
-        <label className={styles["user-form__label"]}>
-          <span className={styles["user-form__title"]}>Username</span>
-          <input
-            className={styles["user-form__name-input"]}
-            type={"text"}
-            onChange={(evt) => setUserName(evt.target.value.trim())}
-            value={userName}
-          />
-        </label>
-
-        <label className={styles["user-form__label"]}>
-          <span className={styles["user-form__title"]}>Age (Years)</span>
-          <input
-            className={styles["user-form__name-input"]}
-            type={"number"}
-            onChange={(evt) => setUserAge(evt.target.value.trim())}
-            value={userAge}
-          />
-        </label>
+        <UserInput
+          label={"Username"}
+          inputValue={userName}
+          handler={setUserName}
+          type={"text"}
+        />
+        <UserInput
+          label={"Age (Years)"}
+          inputValue={userAge}
+          handler={setUserAge}
+          type={"number"}
+        />
         <Button type="submit">Add User</Button>
       </form>
     </Card>
