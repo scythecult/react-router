@@ -10,6 +10,7 @@ const Input = (props) => {
       <input
         id={label}
         type={type}
+        min={type === "number" ? "0" : ""}
         onChange={(evt) => handler(evt.target.value)}
         value={value}
       />
