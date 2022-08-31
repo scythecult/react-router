@@ -6,12 +6,10 @@ import { Button } from "../UI/button";
 import styles from "./cart.module.css";
 
 const Cart = (props) => {
-  const { setIsCartShown } = useContext(CartContext);
-
+  const { cartItems, setIsCartShown } = useContext(CartContext);
   const { totalAmount } = props;
-
-  return (
-    <Modal>
+  const modalContent = cartItems.length ? (
+    <>
       <ul className={styles.cart}>
         <CartItem />
       </ul>
@@ -19,9 +17,17 @@ const Cart = (props) => {
         <span>Total Amount:</span>
         <span>${totalAmount}</span>
       </p>
+    </>
+  ) : (
+    <p>There's no meals in the cart yet...</p>
+  );
+  return (
+    <Modal>
+      {modalContent}
+
       <p className={styles.actions}>
         <Button handler={() => setIsCartShown(false)} text="Close" />
-        <Button text="Order" className="button--alt" />
+        {!!cartItems.length && <Button text="Order" className="button--alt" />}
       </p>
     </Modal>
   );

@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../cart-context/cart-context";
+import { getCartQuantity } from "../../utils/utils";
 import styles from "./cart-button.module.css";
 import { CartIcon } from "./cart-icon";
 
 const CartButton = () => {
-  const { cartCount, setIsCartShown } = useContext(CartContext);
+  const { cartItems, setIsCartShown } = useContext(CartContext);
   const [animationClass, setAnimationClass] = useState("");
+  const cartCount = getCartQuantity(cartItems);
 
   useEffect(() => {
     setAnimationClass(styles.bump);
@@ -15,7 +17,7 @@ const CartButton = () => {
     }, 300);
 
     return () => clearTimeout(timerId);
-  }, [cartCount]);
+  }, [cartItems]);
 
   return (
     <button

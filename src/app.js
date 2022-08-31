@@ -29,25 +29,14 @@ const cartReducer = (state, action) => {
   }
 };
 
-const updateCart = (item) => {};
-const getCartQuantity = (items) => {
-  console.log("cart items", items);
-  return items.reduce((initital, current) => {
-    initital += current.quantity;
-
-    return initital;
-  }, 0);
-};
-
 const App = () => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const [isCartShown, setIsCartShown] = useState(false);
 
-  // console.log(state.cartItems);
   return (
     <CartContext.Provider
       value={{
-        cartCount: getCartQuantity(state.cartItems),
+        cartItems: state.cartItems,
         mealHandler: (info) => {
           dispatch({ type: "ADD_MEAL_TO_CART", payload: info });
         },
