@@ -4,7 +4,7 @@ import styles from "./cart-button.module.css";
 import { CartIcon } from "./cart-icon";
 
 const CartButton = () => {
-  const { cartCount } = useContext(CartContext);
+  const { cartCount, setIsCartShown } = useContext(CartContext);
   const [animationClass, setAnimationClass] = useState("");
 
   useEffect(() => {
@@ -18,7 +18,9 @@ const CartButton = () => {
   }, [cartCount]);
 
   return (
-    <button className={`${styles.button} ${animationClass}`}>
+    <button
+      className={`${styles.button} ${animationClass}`}
+      onClick={() => setIsCartShown(true)}>
       <CartIcon className={styles.icon} />
       Your Cart
       <span className={styles.badge}>{cartCount}</span>
