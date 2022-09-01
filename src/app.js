@@ -33,7 +33,6 @@ const App = () => {
       <div className={styles.app}>
         <Header />
         <Hero />
-        <MealsSummary />
         <Meals meals={state.meals} />
         {isCartShown && <Cart />}
       </div>

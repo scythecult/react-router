@@ -1,10 +1,10 @@
 import React from "react";
 
 const Button = (props) => {
-  const { type = "button", text, handler, className = "" } = props;
+  const { type = "button", handler, className = "", children } = props;
   return (
     <button className={`button ${className}`} type={type} onClick={handler}>
-      {text}
+      {children}
     </button>
   );
 };
