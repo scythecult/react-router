@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { CartContext } from "../../cart-context/cart-context";
 import styles from "./form.module.css";
-import { Input } from "./input";
+import { Input } from "../UI/input";
 
 const Form = (props) => {
   const [mealCount, setMealCount] = useState("1");
@@ -17,8 +17,13 @@ const Form = (props) => {
   return (
     <form className={styles.form} onSubmit={onFormSubmit}>
       <Input
-        label={`meal-amount-${id}`}
-        type="number"
+        config={{
+          id: `meal-amount-${id}`,
+          type: "number",
+          min: "1",
+          max: "5",
+          step: "1",
+        }}
         value={mealCount}
         handler={setMealCount}
       />
