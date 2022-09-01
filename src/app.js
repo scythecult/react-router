@@ -5,7 +5,6 @@ import { CartContext } from "./cart-context/cart-context";
 import { Cart } from "./components/cart/cart";
 import { Header } from "./components/header/header";
 import { Hero } from "./components/hero/hero";
-import { MealsSummary } from "./components/meals-summary/meals-summary";
 import { Meals } from "./components/meals/meals";
 import { cartReducer } from "./reducers/reducers";
 import { getMeals } from "./services/meals";
