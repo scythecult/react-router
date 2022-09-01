@@ -8,7 +8,11 @@ import styles from "./cart.module.css";
 const Cart = () => {
   const { cartItems, setIsCartShown } = useContext(CartContext);
   const totalAmount = cartItems
-    .reduce((initial, current) => (initial += current.price) * current.quantity, 0)
+    .reduce((initial, current) => {
+      initial += current.price * current.quantity;
+
+      return initial;
+    }, 0)
     .toFixed(2);
 
   const modalContent = cartItems.length ? (
@@ -29,7 +33,6 @@ const Cart = () => {
   return (
     <Modal>
       {modalContent}
-
       <p className={styles.actions}>
         <Button handler={() => setIsCartShown(false)}>Close</Button>
         {!!cartItems.length && <Button className="button--alt">Order</Button>}
