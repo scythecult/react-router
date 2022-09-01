@@ -1,14 +1,11 @@
+const updateItems = (items, newItem, index) => {
+  return [...items.slice(0, index), newItem, ...items.slice(index + 1)];
+};
+
 const cartReducer = (state, action) => {
   switch (action.type) {
     case "ADD_MEAL_TO_CART": {
-      const mealIndex = state.meals.findIndex((meal) => meal.id === action.payload.id);
-      const targetMeal = state.meals[mealIndex];
-
-      const newMeal = {
-        ...targetMeal,
-        quantity: action.payload.mealCount,
-      };
-
+      const targetMeal = state.meals.find((meal) => meal.id === action.payload.id);
       const cartItemIndex = state.cartItems.findIndex(
         (item) => item.id === targetMeal.id
       );
@@ -26,13 +23,14 @@ const cartReducer = (state, action) => {
 
         return {
           ...state,
-          cartItems: [
-            ...cartItems.slice(0, cartItemIndex),
-            updatedCartItem,
-            ...cartItems.slice(cartItemIndex + 1),
-          ],
+          cartItems: updateItems(cartItems, updatedCartItem, cartItemIndex),
         };
       }
+
+      const newMeal = {
+        ...targetMeal,
+        quantity: action.payload.mealCount,
+      };
 
       cartItems = [newMeal, ...state.cartItems];
 
@@ -49,11 +47,7 @@ const cartReducer = (state, action) => {
 
         return {
           ...state,
-          cartItems: [
-            ...newMeals.slice(0, mealIndex),
-            newMeal,
-            ...newMeals.slice(mealIndex + 1),
-          ],
+          cartItems: updateItems(newMeals, newMeal, mealIndex),
         };
       }
 
