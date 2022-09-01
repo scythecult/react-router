@@ -5,19 +5,19 @@ import { Input } from "./input";
 
 const Form = (props) => {
   const [mealCount, setMealCount] = useState("1");
-  const { mealId } = props;
-  const { mealHandler } = useContext(CartContext);
+  const { onAdd } = useContext(CartContext);
+  const { id } = props;
 
   const onFormSubmit = (evt) => {
     evt.preventDefault();
 
-    mealHandler({ mealId, mealCount: Number(mealCount) });
+    onAdd({ id, mealCount: Number(mealCount) });
   };
 
   return (
     <form className={styles.form} onSubmit={onFormSubmit}>
       <Input
-        label={`meal-amount-${mealId}`}
+        label={`meal-amount-${id}`}
         type="number"
         value={mealCount}
         handler={setMealCount}

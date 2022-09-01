@@ -5,13 +5,19 @@ import { Modal } from "../modal/modal";
 import { Button } from "../UI/button";
 import styles from "./cart.module.css";
 
-const Cart = (props) => {
+const Cart = () => {
   const { cartItems, setIsCartShown } = useContext(CartContext);
-  const { totalAmount } = props;
+  const totalAmount = cartItems.reduce(
+    (initial, current) => (initial += current.price) * current.quantity,
+    0
+  );
+
   const modalContent = cartItems.length ? (
     <>
       <ul className={styles.cart}>
-        <CartItem />
+        {cartItems.map((item, index) => (
+          <CartItem key={item.id + index} {...item} />
+        ))}
       </ul>
       <p className={styles.total}>
         <span>Total Amount:</span>
