@@ -2,7 +2,7 @@ import React from "react";
 import { MealsSummary } from "../meals-summary/meals-summary";
 import styles from "./hero.module.css";
 
-const Hero = () => {
+const Hero = React.memo(() => {
   return (
     <div className={styles.hero}>
       <img
@@ -12,6 +12,6 @@ const Hero = () => {
       <MealsSummary />
     </div>
   );
-};
+});
 
 export { Hero };

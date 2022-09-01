@@ -5,7 +5,7 @@ import { Modal } from "../modal/modal";
 import { Button } from "../UI/button";
 import styles from "./cart.module.css";
 
-const Cart = () => {
+const Cart = React.memo(() => {
   const { cartItems, setIsCartShown } = useContext(CartContext);
   const totalAmount = cartItems
     .reduce((initial, current) => {
@@ -39,6 +39,6 @@ const Cart = () => {
       </p>
     </Modal>
   );
-};
+});
 
 export { Cart };

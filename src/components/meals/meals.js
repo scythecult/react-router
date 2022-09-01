@@ -3,7 +3,7 @@ import { Meal } from "../meal/meal";
 import { Card } from "../UI/card";
 import styles from "./meals.module.css";
 
-const Meals = (props) => {
+const Meals = React.memo((props) => {
   const { meals } = props;
 
   return (
@@ -17,6 +17,6 @@ const Meals = (props) => {
       </Card>
     </div>
   );
-};
+});
 
 export { Meals };
