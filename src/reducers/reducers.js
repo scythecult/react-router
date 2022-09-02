@@ -20,7 +20,8 @@ const cartReducer = (state, action) => {
         };
 
         cartItems = [...state.cartItems];
-
+        // * вместо updateItems можно использовать, доступ по индексу и переписывать "старое" значение
+        // * cartItems[cartItemIndex] = updatedCartItem;
         return {
           ...state,
           cartItems: updateItems(cartItems, updatedCartItem, cartItemIndex),

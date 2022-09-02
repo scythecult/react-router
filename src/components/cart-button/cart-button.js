@@ -10,7 +10,9 @@ const CartButton = () => {
   const cartCount = getCartQuantity(cartItems);
 
   useEffect(() => {
-    setAnimationClass(styles.bump);
+    if (cartItems.length) {
+      setAnimationClass(styles.bump);
+    }
 
     const timerId = setTimeout(() => {
       setAnimationClass("");
