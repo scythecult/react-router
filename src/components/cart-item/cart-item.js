@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { CartContext } from "../../cart-context/cart-context";
+import { addMealToCart, removeMealFromCart } from "../../actions/actions";
+import { DispatchContext } from "../../context/context";
 import styles from "./cart-item.module.css";
 
 const CartItem = (props) => {
-  const { onRemove, onAdd } = useContext(CartContext);
+  const dispatch = useContext(DispatchContext);
   const { id, price, quantity } = props;
 
   return (
@@ -16,8 +17,8 @@ const CartItem = (props) => {
         </div>
       </div>
       <div className={styles.actions}>
-        <button onClick={() => onRemove(id)}>−</button>
-        <button onClick={() => onAdd({ id, mealCount: 1 })}>+</button>
+        <button onClick={() => dispatch(removeMealFromCart(id))}>−</button>
+        <button onClick={() => dispatch(addMealToCart({ id, mealCount: 1 }))}>+</button>
       </div>
     </li>
   );

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { CartContext } from "../../cart-context/cart-context";
+import { CartContext } from "../../context/context";
 import { CartItem } from "../cart-item/cart-item";
 import { Modal } from "../modal/modal";
 import { Button } from "../UI/button";
@@ -7,6 +7,7 @@ import styles from "./cart.module.css";
 
 const Cart = React.memo(() => {
   const { cartItems, setIsCartShown } = useContext(CartContext);
+  const hasCartItems = !!cartItems.length;
   const totalAmount = cartItems
     .reduce((initial, current) => {
       initial += current.price * current.quantity;
@@ -15,7 +16,7 @@ const Cart = React.memo(() => {
     }, 0)
     .toFixed(2);
 
-  const modalContent = cartItems.length ? (
+  const modalContent = hasCartItems ? (
     <>
       <ul className={styles.cart}>
         {cartItems.map((item, index) => (
@@ -35,7 +36,7 @@ const Cart = React.memo(() => {
       {modalContent}
       <p className={styles.actions}>
         <Button handler={() => setIsCartShown(false)}>Close</Button>
-        {!!cartItems.length && <Button className="button--alt">Order</Button>}
+        {!!hasCartItems && <Button className="button--alt">Order</Button>}
       </p>
     </Modal>
   );

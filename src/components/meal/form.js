@@ -1,17 +1,18 @@
 import React, { useContext, useState } from "react";
-import { CartContext } from "../../cart-context/cart-context";
+import { DispatchContext } from "../../context/context";
 import styles from "./form.module.css";
 import { Input } from "../UI/input";
+import { addMealToCart } from "../../actions/actions";
 
 const Form = (props) => {
   const [mealCount, setMealCount] = useState("1");
-  const { onAdd } = useContext(CartContext);
+  const dispatch = useContext(DispatchContext);
   const { id } = props;
 
   const onFormSubmit = (evt) => {
     evt.preventDefault();
 
-    onAdd({ id, mealCount: Number(mealCount) });
+    dispatch(addMealToCart({ id, mealCount: Number(mealCount) }));
   };
 
   return (

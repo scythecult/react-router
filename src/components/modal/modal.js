@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { CartContext } from "../../cart-context/cart-context";
+import { CartContext } from "../../context/context";
 import styles from "./modal.module.css";
 
 const Modal = (props) => {

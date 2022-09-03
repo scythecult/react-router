@@ -1,10 +1,12 @@
+import { ADD_MEAL_TO_CART, REMOVE_MEAL_FROM_CART } from "../actions/actions";
+
 const updateItems = (items, newItem, index) => {
   return [...items.slice(0, index), newItem, ...items.slice(index + 1)];
 };
 
 const cartReducer = (state, action) => {
   switch (action.type) {
-    case "ADD_MEAL_TO_CART": {
+    case ADD_MEAL_TO_CART: {
       const targetMeal = state.meals.find((meal) => meal.id === action.payload.id);
       const cartItemIndex = state.cartItems.findIndex(
         (item) => item.id === targetMeal.id
@@ -38,7 +40,7 @@ const cartReducer = (state, action) => {
       return { ...state, cartItems };
     }
 
-    case "REMOVE_MEAL_FROM_CART": {
+    case REMOVE_MEAL_FROM_CART: {
       const mealIndex = state.cartItems.findIndex((item) => item.id === action.payload);
       const targetMeal = state.cartItems[mealIndex];
       const newMeals = [...state.cartItems];
