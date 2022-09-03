@@ -25,7 +25,7 @@ const CartButton = () => {
     <button
       className={`${styles.button} ${animationClass}`}
       onClick={() => setIsCartShown(true)}>
-      <CartIcon className={styles.icon} />
+      <CartIcon />
       Your Cart
       <span className={styles.badge}>{cartCount}</span>
     </button>
