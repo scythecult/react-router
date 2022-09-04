@@ -3,6 +3,7 @@ import { CartContext } from "../../context/context";
 import { usePostData } from "../../hooks/hooks";
 import { CartItem } from "../cart-item/cart-item";
 import { Modal } from "../modal/modal";
+import { Spinner } from "../spinner/spinner";
 import { Button } from "../UI/button";
 import styles from "./cart.module.css";
 
@@ -43,6 +44,7 @@ const Cart = React.memo(() => {
         {!!hasCartItems && (
           <Button className="button--alt" handler={() => postData(cartItems)}>
             Order
+            {/* <Spinner /> */}
           </Button>
         )}
       </p>

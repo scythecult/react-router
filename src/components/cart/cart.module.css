@@ -16,15 +16,22 @@
 }
 
 .actions {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .actions button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font: inherit;
   cursor: pointer;
   background-color: transparent;
+  min-width: 100px;
   border: 1px solid #8a2b06;
-  padding: 0.5rem 2rem;
+  padding: 0;
+  min-height: 40px;
   border-radius: 25px;
   margin-left: 1rem;
 }
