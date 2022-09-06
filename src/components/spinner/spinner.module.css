@@ -72,6 +72,6 @@
   animation: spinner_reverse 1.5s linear infinite;
 }
 .spinner {
-  -webkit-transform: translate(-38.5px, -38.5px) scale(0.385) translate(38.5px, 38.5px);
-  transform: translate(-38.5px, -38.5px) scale(0.385) translate(38.5px, 38.5px);
+  -webkit-transform: translate(-35.5px, -35.5px) scale(0.385) translate(38.5px, 38.5px);
+  transform: translate(-35.5px, -35.5px) scale(0.385) translate(38.5px, 38.5px);
 }
