@@ -20,21 +20,27 @@ const Cart = React.memo(() => {
     }, 0)
     .toFixed(2);
 
-  const modalContent = hasCartItems ? (
-    <>
-      <ul className={styles.cart}>
-        {cartItems.map((item, index) => (
-          <CartItem key={item.id + index} {...item} />
-        ))}
-      </ul>
-      <p className={styles.total}>
-        <span>Total Amount:</span>
-        <span>${totalAmount}</span>
-      </p>
-    </>
-  ) : (
-    <p>There's no meals in the cart yet...</p>
-  );
+  let modalContent = <p>There's no meals in the cart yet...</p>;
+
+  if (hasCartItems) {
+    modalContent = (
+      <>
+        <ul className={styles.cart}>
+          {cartItems.map((item, index) => (
+            <CartItem key={item.id + index} {...item} />
+          ))}
+        </ul>
+        <p className={styles.total}>
+          <span>Total Amount:</span>
+          <span>${totalAmount}</span>
+        </p>
+      </>
+    );
+  }
+
+  if (isError) {
+    modalContent = <p>Something went wrong, try later...</p>;
+  }
 
   useEffect(() => {
     if (responseDb?.name) {
@@ -42,7 +48,7 @@ const Cart = React.memo(() => {
       dispatch(clearCart());
     }
   }, [responseDb, setIsCartShown, dispatch]);
-
+  console.log("is error", !!isError);
   return (
     <Modal>
       {modalContent}
@@ -52,7 +58,7 @@ const Cart = React.memo(() => {
           handler={() => setIsCartShown(false)}>
           Close
         </Button>
-        {!!hasCartItems && (
+        {hasCartItems && !isError && (
           <Button
             config={{ type: "button", isDisabled: isLoading }}
             handler={() => postData(cartItems)}>
