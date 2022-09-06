@@ -12,6 +12,7 @@ const Cart = React.memo(() => {
   const { responseDb, isError, isLoading, postData } = usePostData();
   const dispatch = useContext(DispatchContext);
   const hasCartItems = !!cartItems.length;
+  const isSuccess = responseDb?.name;
   const totalAmount = cartItems
     .reduce((initial, current) => {
       initial += current.price * current.quantity;
@@ -20,7 +21,7 @@ const Cart = React.memo(() => {
     }, 0)
     .toFixed(2);
 
-  let modalContent = <p>There's no meals in the cart yet...</p>;
+  let modalContent = <p>There's no meals in the cart yet...🤷‍♀️</p>;
 
   if (hasCartItems) {
     modalContent = (
@@ -39,16 +40,19 @@ const Cart = React.memo(() => {
   }
 
   if (isError) {
-    modalContent = <p>Something went wrong, try later...</p>;
+    modalContent = <p>Something went wrong, try later...💩</p>;
+  }
+
+  if (isSuccess) {
+    modalContent = <p>Your order has been accepted, await operator call!😎</p>;
   }
 
   useEffect(() => {
-    if (responseDb?.name) {
-      setIsCartShown(false);
+    if (isSuccess) {
       dispatch(clearCart());
     }
-  }, [responseDb, setIsCartShown, dispatch]);
-  console.log("is error", !!isError);
+  }, [isSuccess, dispatch]);
+
   return (
     <Modal>
       {modalContent}
