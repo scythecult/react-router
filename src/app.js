@@ -5,14 +5,7 @@ import { Cart } from "./components/cart/cart";
 import { Header } from "./components/header/header";
 import { Hero } from "./components/hero/hero";
 import { Meals } from "./components/meals/meals";
-import { cartReducer } from "./reducers/reducers";
-import { getMeals } from "./services/meals";
-
-const meals = getMeals();
-const initialState = {
-  meals,
-  cartItems: [],
-};
+import { cartReducer, initialState } from "./reducers/reducers";
 
 const App = () => {
   const [state, dispatch] = useReducer(cartReducer, initialState);

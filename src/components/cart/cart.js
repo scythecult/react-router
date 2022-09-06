@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
-import { CartContext } from "../../context/context";
+import React, { useContext, useEffect } from "react";
+import { clearCart } from "../../actions/actions";
+import { CartContext, DispatchContext } from "../../context/context";
 import { usePostData } from "../../hooks/hooks";
 import { CartItem } from "../cart-item/cart-item";
 import { Modal } from "../modal/modal";
@@ -9,8 +10,7 @@ import styles from "./cart.module.css";
 const Cart = React.memo(() => {
   const { cartItems, setIsCartShown } = useContext(CartContext);
   const { responseDb, isError, isLoading, postData } = usePostData();
-
-  console.log(responseDb, isError, isLoading);
+  const dispatch = useContext(DispatchContext);
   const hasCartItems = !!cartItems.length;
   const totalAmount = cartItems
     .reduce((initial, current) => {
@@ -35,6 +35,14 @@ const Cart = React.memo(() => {
   ) : (
     <p>There's no meals in the cart yet...</p>
   );
+
+  useEffect(() => {
+    if (responseDb?.name) {
+      setIsCartShown(false);
+      dispatch(clearCart());
+    }
+  }, [responseDb, setIsCartShown, dispatch]);
+
   return (
     <Modal>
       {modalContent}

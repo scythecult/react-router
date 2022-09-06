@@ -1,4 +1,12 @@
-import { ADD_MEAL_TO_CART, REMOVE_MEAL_FROM_CART } from "../actions/actions";
+import { ADD_MEAL_TO_CART, CLEAR_CART, REMOVE_MEAL_FROM_CART } from "../actions/actions";
+import { getMeals } from "../services/meals";
+
+const meals = getMeals();
+
+const initialState = {
+  meals,
+  cartItems: [],
+};
 
 const updateItems = (items, newItem, index) => {
   return [...items.slice(0, index), newItem, ...items.slice(index + 1)];
@@ -58,10 +66,12 @@ const cartReducer = (state, action) => {
 
       return { ...state, cartItems: [...newMeals] };
     }
+    case CLEAR_CART:
+      return { ...state, cartItems: [] };
 
     default:
       return { ...state };
   }
 };
 
-export { cartReducer };
+export { cartReducer, initialState };
