@@ -6,6 +6,7 @@ import { Header } from "./components/header/header";
 import { Hero } from "./components/hero/hero";
 import { Meals } from "./components/meals/meals";
 import { cartReducer, initialState } from "./reducers/reducers";
+import { RecentItems } from "./components/recent-items/recent-items";
 
 const App = () => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
@@ -23,6 +24,7 @@ const App = () => {
           <Hero />
           <Meals meals={state.meals} />
           {isCartShown && <Cart />}
+          <RecentItems />
         </div>
       </CartContext.Provider>
     </DispatchContext.Provider>
