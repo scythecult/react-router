@@ -6,6 +6,14 @@
   flex-direction: column;
   align-items: center;
   width: 300px;
+  transition-property: transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  transform: translateY(88%);
+}
+
+.recent.expanded {
+  transform: translateY(0);
 }
 
 .head-button {
@@ -37,6 +45,10 @@
   border-radius: 14px;
 }
 
+.list li {
+  align-items: center;
+}
+
 .buttons {
   display: flex;
   align-items: center;
@@ -52,4 +64,10 @@
   font-size: 14px;
   width: 100%;
   max-width: 48%;
+}
+
+.recent-items-remove {
+  margin: 0;
+  width: 40px;
+  min-width: auto;
 }

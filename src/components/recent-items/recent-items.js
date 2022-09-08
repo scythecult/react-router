@@ -1,6 +1,7 @@
 // TODO reminder, брать данные из базы и выводить их при первой загрузке приложения с формулировкой "в прошлый раз вы заказывали"
 // * как вариант можно сделать самозакрывющимся
 
+import { useState } from "react";
 import { Meal } from "../meal/meal";
 import { Button } from "../UI/button";
 import { Card } from "../UI/card";
@@ -35,22 +36,38 @@ const DUMMY_MEALS = [
 ];
 
 const RecentItems = () => {
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  const onToggleExpandClick = () => {
+    setIsExpanded((isExpanded) => (isExpanded = !isExpanded));
+  };
+
   return (
-    <section className={styles.recent}>
-      <Button config={{ className: styles["head-button"] }}>
+    <section className={`${styles.recent} ${isExpanded && styles.expanded}`}>
+      <Button handler={onToggleExpandClick} config={{ className: styles["head-button"] }}>
         <span className={styles["head-button__title"]}>Last time you ordered:</span>
       </Button>
       <Card>
         <ul className={styles.list}>
           {DUMMY_MEALS.map((meal) => {
-            return <Meal key={meal.id} {...meal} />;
+            return (
+              <Meal key={meal.id} {...meal}>
+                <Button config={{ className: styles["recent-items-remove"] }}>
+                  &#9587;
+                </Button>
+              </Meal>
+            );
           })}
         </ul>
         <div className={styles.buttons}>
+          <Button
+            handler={onToggleExpandClick}
+            config={{ className: styles["recent-items-button"] }}>
+            Close
+          </Button>
           <Button config={{ className: styles["recent-items-button"] }}>
             Order again!
           </Button>
-          <Button config={{ className: styles["recent-items-button"] }}>Close</Button>
         </div>
       </Card>
     </section>
