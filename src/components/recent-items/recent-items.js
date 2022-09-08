@@ -5,6 +5,8 @@ import { Meal } from "../meal/meal";
 import { Button } from "../UI/button";
 import { Card } from "../UI/card";
 
+import styles from "./recent-items.module.css";
+
 const DUMMY_MEALS = [
   {
     id: "m1",
@@ -34,19 +36,21 @@ const DUMMY_MEALS = [
 
 const RecentItems = () => {
   return (
-    <section className="recent">
-      <div className="head">
-        <h2 className="title">Last time you ordered:</h2>
-      </div>
+    <section className={styles.recent}>
+      <Button config={{ className: styles["head-button"] }}>
+        <span className={styles["head-button__title"]}>Last time you ordered:</span>
+      </Button>
       <Card>
-        <ul className="list">
+        <ul className={styles.list}>
           {DUMMY_MEALS.map((meal) => {
             return <Meal key={meal.id} {...meal} />;
           })}
         </ul>
-        <div className="buttons">
-          <Button config={{ className: "zalupa" }}>Order again!</Button>
-          <Button config={{ className: "zalupa" }}>Close</Button>
+        <div className={styles.buttons}>
+          <Button config={{ className: styles["recent-items-button"] }}>
+            Order again!
+          </Button>
+          <Button config={{ className: styles["recent-items-button"] }}>Close</Button>
         </div>
       </Card>
     </section>
