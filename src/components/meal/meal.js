@@ -1,9 +1,8 @@
 import React from "react";
-import { Form } from "./form";
 import styles from "./meal.module.css";
 
 const Meal = (props) => {
-  const { id, name, description, price } = props;
+  const { name, description, price, children } = props;
 
   return (
     <li className={styles.meal}>
@@ -12,7 +11,7 @@ const Meal = (props) => {
         <p className={styles.description}>{description}</p>
         <p className={styles.price}>${price} </p>
       </div>
-      <Form id={id} />
+      {children}
     </li>
   );
 };

@@ -6,6 +6,7 @@ const meals = getMeals();
 const initialState = {
   meals,
   cartItems: [],
+  recentItems: [],
 };
 
 const updateItems = (items, newItem, index) => {
