@@ -6,4 +6,16 @@ const getCartQuantity = (items) => {
   }, 0);
 };
 
-export { getCartQuantity };
+const transformData = (data = {}) => {
+  const transformed = [];
+
+  for (const values of Object.values(data)) {
+    if (!Array.isArray(values)) return;
+
+    transformed.push(...values);
+  }
+
+  return transformed;
+};
+
+export { getCartQuantity, transformData };

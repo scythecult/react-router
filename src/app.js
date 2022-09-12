@@ -9,11 +9,18 @@ import { cartReducer, initialState } from "./reducers/reducers";
 import { RecentItems } from "./components/recent-items/recent-items";
 import { useHttp } from "./hooks/hooks";
 import { FIRE_DB_URL } from "./constants/constants";
+import { transformData } from "./utils/utils";
 
 const App = () => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const [isCartShown, setIsCartShown] = useState(false);
   const { responseDb, fetchData } = useHttp(FIRE_DB_URL);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  console.log(transformData(responseDb));
 
   return (
     <DispatchContext.Provider value={dispatch}>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useHttp = (url, method = "GET") => {
+const useHttp = (url, method = "GET", transform = () => ({})) => {
   const [responseDb, setResponseDb] = useState(null);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,7 @@ const useHttp = (url, method = "GET") => {
       if (response.ok) {
         const data = await response.json();
 
-        setResponseDb(data);
+        setResponseDb(method === "POST" ? transform(data) : data);
       } else {
         throw new Error("Something went wrong");
       }
