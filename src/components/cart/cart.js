@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { clearCart } from "../../actions/actions";
+import { FIRE_DB_URL } from "../../constants/constants";
 import { CartContext, DispatchContext } from "../../context/context";
-import { usePostData } from "../../hooks/hooks";
+import { useHttp } from "../../hooks/hooks";
 import { CartItem } from "../cart-item/cart-item";
 import { Modal } from "../modal/modal";
 import { Button } from "../UI/button";
@@ -9,7 +10,7 @@ import styles from "./cart.module.css";
 
 const Cart = React.memo(() => {
   const { cartItems, setIsCartShown } = useContext(CartContext);
-  const { responseDb, isError, isLoading, postData } = usePostData();
+  const { responseDb, isError, isLoading, fetchData } = useHttp(FIRE_DB_URL, "POST");
   const dispatch = useContext(DispatchContext);
   const hasCartItems = !!cartItems.length;
   const isSuccess = responseDb?.name;
@@ -65,7 +66,7 @@ const Cart = React.memo(() => {
         {hasCartItems && !isError && (
           <Button
             config={{ type: "button", isDisabled: isLoading }}
-            handler={() => postData(cartItems)}>
+            handler={() => fetchData(cartItems)}>
             Order
           </Button>
         )}
