@@ -11,11 +11,14 @@ const transformData = (data = {}) => {
 
   for (const values of Object.values(data)) {
     if (!Array.isArray(values)) return [];
-
     transformed.push(...values);
   }
 
-  return transformed;
+  const uniqueItems = Object.values(
+    transformed.reduce((acc, obj) => ({ ...acc, [obj.id]: obj }), {})
+  );
+
+  return uniqueItems;
 };
 
 export { getCartQuantity, transformData };
