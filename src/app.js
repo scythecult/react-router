@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useReducer, useState } from "react";
 import styles from "./app.module.css";
 import { CartContext, DispatchContext } from "./context/context";
 import { Cart } from "./components/cart/cart";
@@ -7,25 +7,16 @@ import { Hero } from "./components/hero/hero";
 import { Meals } from "./components/meals/meals";
 import { cartReducer, initialState } from "./reducers/reducers";
 import { RecentItems } from "./components/recent-items/recent-items";
-import { useHttp } from "./hooks/hooks";
-import { FIRE_DB_URL } from "./constants/constants";
-import { transformData } from "./utils/utils";
 
 const App = () => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const [isCartShown, setIsCartShown] = useState(false);
-  const { responseDb, fetchData } = useHttp(FIRE_DB_URL);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  console.log(transformData(responseDb));
 
   return (
     <DispatchContext.Provider value={dispatch}>
       <CartContext.Provider
         value={{
+          state,
           cartItems: state.cartItems,
           setIsCartShown,
         }}>

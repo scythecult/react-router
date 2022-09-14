@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { transformData } from "../utils/utils";
 
-const useHttp = (url, method = "GET", transform = () => ({})) => {
-  const [responseDb, setResponseDb] = useState(null);
+const useHttp = ({ url, method = "GET" }) => {
+  const [postResponse, setPostResponse] = useState(null);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = async (items) => {
+    setIsError(false);
     setIsLoading(true);
 
     try {
@@ -25,18 +27,20 @@ const useHttp = (url, method = "GET", transform = () => ({})) => {
       if (response.ok) {
         const data = await response.json();
 
-        setResponseDb(method === "POST" ? transform(data) : data);
-      } else {
-        throw new Error("Something went wrong");
+        if (method === "POST") {
+          setPostResponse(data);
+        }
+
+        return transformData(data);
       }
-    } catch (error) {
-      setIsError(error);
+    } catch {
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { responseDb, isError, isLoading, fetchData };
+  return [{ postResponse, isError, isLoading }, fetchData];
 };
 
 export { useHttp };

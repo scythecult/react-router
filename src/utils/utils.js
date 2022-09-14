@@ -10,7 +10,7 @@ const transformData = (data = {}) => {
   const transformed = [];
 
   for (const values of Object.values(data)) {
-    if (!Array.isArray(values)) return;
+    if (!Array.isArray(values)) return [];
 
     transformed.push(...values);
   }

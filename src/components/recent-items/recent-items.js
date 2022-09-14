@@ -1,7 +1,12 @@
 // TODO reminder, брать данные из базы и выводить их при первой загрузке приложения с формулировкой "в прошлый раз вы заказывали"
 // * как вариант можно сделать самозакрывющимся
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { addRecentMeals } from "../../actions/actions";
+import { FIRE_DB_URL } from "../../constants/constants";
+import { CartContext, DispatchContext } from "../../context/context";
+import { useHttp } from "../../hooks/hooks";
+import { transformData } from "../../utils/utils";
 import { Meal } from "../meal/meal";
 import { Button } from "../UI/button";
 import { Card } from "../UI/card";
@@ -36,8 +41,21 @@ const DUMMY_MEALS = [
 ];
 
 const RecentItems = () => {
+  const { state } = useContext(CartContext);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [{ isLoading }, fetchData] = useHttp({
+    url: FIRE_DB_URL,
+  });
+  const dispatch = useContext(DispatchContext);
 
+  useEffect(() => {
+    fetchData().then((response) => {
+      console.log(response);
+      dispatch(addRecentMeals(response));
+    });
+  }, []);
+
+  console.log(isLoading);
   const onToggleExpandClick = () => {
     setIsExpanded((isExpanded) => (isExpanded = !isExpanded));
   };

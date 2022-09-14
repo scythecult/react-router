@@ -10,10 +10,13 @@ import styles from "./cart.module.css";
 
 const Cart = React.memo(() => {
   const { cartItems, setIsCartShown } = useContext(CartContext);
-  const { responseDb, isError, isLoading, fetchData } = useHttp(FIRE_DB_URL, "POST");
+  const [{ postResponse, isError, isLoading }, fetchData] = useHttp({
+    url: FIRE_DB_URL,
+    method: "POST",
+  });
   const dispatch = useContext(DispatchContext);
   const hasCartItems = !!cartItems.length;
-  const isSuccess = responseDb?.name;
+  const isSuccess = postResponse?.name;
   const totalAmount = cartItems
     .reduce((initial, current) => {
       initial += current.price * current.quantity;
