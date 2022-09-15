@@ -2,8 +2,10 @@ import {
   ADD_MEAL_TO_CART,
   ADD_RECENT_MEALS,
   CLEAR_CART,
+  CLEAR_RECENT,
   MERGE_RECENT_WITH_CART_MEALS,
   REMOVE_MEAL_FROM_CART,
+  REMOVE_MEAL_FROM_RECENT,
 } from "../actions/actions";
 import { getMeals } from "../services/meals";
 
@@ -83,6 +85,20 @@ const cartReducer = (state, action) => {
 
     case MERGE_RECENT_WITH_CART_MEALS: {
       return { ...state, cartItems: [...state.cartItems, ...state.recentItems] };
+    }
+
+    case REMOVE_MEAL_FROM_RECENT: {
+      return {
+        ...state,
+        recentItems: state.recentItems.filter((item) => item.id !== action.payload),
+      };
+    }
+
+    case CLEAR_RECENT: {
+      return {
+        ...state,
+        recentItems: [],
+      };
     }
 
     default:
