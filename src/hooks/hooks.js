@@ -40,7 +40,7 @@ const useHttp = ({ url, method = "GET" }) => {
     }
   };
 
-  return [{ postResponse, isError, isLoading }, fetchData];
+  return [fetchData, { postResponse, isError, isLoading }];
 };
 
 export { useHttp };

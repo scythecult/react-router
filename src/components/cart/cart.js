@@ -10,7 +10,7 @@ import styles from "./cart.module.css";
 
 const Cart = React.memo(() => {
   const { cartItems, setIsCartShown } = useContext(CartContext);
-  const [{ postResponse, isError, isLoading }, fetchData] = useHttp({
+  const [fetchData, { postResponse, isError, isLoading }] = useHttp({
     url: FIRE_DB_URL,
     method: "POST",
   });
