@@ -4,7 +4,13 @@ import styles from "./button.module.css";
 
 const Button = React.memo((props) => {
   const { handler, children, config = {} } = props;
-  const { isAlt = "", type = "button", isDisabled = false, className = "" } = config;
+  const {
+    isAlt = "",
+    type = "button",
+    isDisabled = false,
+    className = "",
+    withSpinner = true,
+  } = config;
 
   return (
     <button
@@ -12,7 +18,7 @@ const Button = React.memo((props) => {
       type={type}
       onClick={handler}
       disabled={isDisabled}>
-      {isDisabled ? <Spinner /> : children}
+      {isDisabled && withSpinner ? <Spinner /> : children}
     </button>
   );
 });
