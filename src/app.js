@@ -12,7 +12,7 @@ import { Login } from "./components/login/login";
 const App = () => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const [isCartShown, setIsCartShown] = useState(false);
-  const [isLoginShown, setIsloginShown] = useState(true);
+  const [isLoginShown, setIsLoginShown] = useState(false);
 
   return (
     <DispatchContext.Provider value={dispatch}>
@@ -21,7 +21,7 @@ const App = () => {
           state,
           cartItems: state.cartItems,
           setIsCartShown,
-          setIsloginShown,
+          setIsLoginShown,
         }}>
         <div className={styles.app}>
           <Header />

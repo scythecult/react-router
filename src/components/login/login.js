@@ -8,7 +8,7 @@ import visible from "./media/visible.png";
 import invisible from "./media/invisible.png";
 
 const Login = () => {
-  const { setIsloginShown } = useContext(CartContext);
+  const { setIsLoginShown } = useContext(CartContext);
   const [loginValue, setLoginValue] = useState("");
   const [isLoginValid, setIsloginValid] = useState(false);
   const [isLoginTouched, setIsloginTouched] = useState(false);
@@ -70,7 +70,7 @@ const Login = () => {
   };
 
   return (
-    <Modal handler={() => setIsloginShown(false)}>
+    <Modal handler={() => setIsLoginShown(false)}>
       <form className={styles.login} onSubmit={onFormSubmit}>
         <h2>Please login to order</h2>
         <div className={styles.inputs}>
@@ -103,7 +103,7 @@ const Login = () => {
             <Button
               handler={() => {
                 resetForm();
-                setIsloginShown(false);
+                setIsLoginShown(false);
               }}
               config={{ className: styles["login-button"] }}>
               Close
