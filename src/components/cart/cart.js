@@ -58,7 +58,7 @@ const Cart = React.memo(() => {
   }, [isSuccess, dispatch]);
 
   return (
-    <Modal>
+    <Modal handler={() => setIsCartShown(false)}>
       {modalContent}
       <p className={styles.actions}>
         <Button

@@ -7,10 +7,12 @@ import { Hero } from "./components/hero/hero";
 import { Meals } from "./components/meals/meals";
 import { cartReducer, initialState } from "./reducers/reducers";
 import { RecentItems } from "./components/recent-items/recent-items";
+import { Login } from "./components/login/login";
 
 const App = () => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const [isCartShown, setIsCartShown] = useState(false);
+  const [isLoginShown, setIsloginShown] = useState(true);
 
   return (
     <DispatchContext.Provider value={dispatch}>
@@ -25,6 +27,7 @@ const App = () => {
           <Hero />
           <Meals meals={state.meals} />
           {isCartShown && <Cart />}
+          {/* {isLoginShown && <Login />} */}
           <RecentItems />
         </div>
       </CartContext.Provider>
