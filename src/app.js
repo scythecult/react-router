@@ -21,13 +21,14 @@ const App = () => {
           state,
           cartItems: state.cartItems,
           setIsCartShown,
+          setIsloginShown,
         }}>
         <div className={styles.app}>
           <Header />
           <Hero />
           <Meals meals={state.meals} />
           {isCartShown && <Cart />}
-          {/* {isLoginShown && <Login />} */}
+          {isLoginShown && <Login />}
           <RecentItems />
         </div>
       </CartContext.Provider>

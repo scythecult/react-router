@@ -4,7 +4,7 @@ import styles from "./button.module.css";
 
 const Button = React.memo((props) => {
   const { handler, children, config = {} } = props;
-  const { isAlt = false, type = "button", isDisabled = false, className = "" } = config;
+  const { isAlt = "", type = "button", isDisabled = false, className = "" } = config;
 
   return (
     <button
