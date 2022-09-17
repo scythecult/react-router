@@ -9,7 +9,61 @@ import invisible from "./media/invisible.png";
 
 const Login = () => {
   const { setIsloginShown } = useContext(CartContext);
+  const [loginValue, setLoginValue] = useState("");
+  const [isLoginValid, setIsloginValid] = useState(false);
+  const [isLoginTouched, setIsloginTouched] = useState(false);
+  const [passValue, setPassValue] = useState("");
+  const [isPassValid, setIsPassValid] = useState(false);
+  const [isPassTouched, setIsPassTouched] = useState(false);
   const [isPassShown, setIsPassShown] = useState(false);
+
+  const isLoginError = !isLoginValid && isLoginTouched;
+  const isPassError = !isPassValid && isPassTouched;
+  const isFormValid = isLoginValid && isPassValid;
+
+  const onFormSubmit = (evt) => {
+    evt.preventDefault();
+
+    console.log("send data to firebase", { loginValue, passValue });
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setLoginValue("");
+    setPassValue("");
+  };
+
+  const onLoginChange = (evt) => {
+    const inputValue = evt.target.value;
+
+    if (inputValue.trim().length > 4) {
+      setIsloginValid(true);
+    } else {
+      setIsloginValid(false);
+    }
+
+    setLoginValue(inputValue);
+  };
+
+  const onLoginBlur = () => {
+    setIsloginTouched(true);
+  };
+
+  const onPassChange = (evt) => {
+    const inputValue = evt.target.value;
+
+    if (inputValue.trim().length > 7) {
+      setIsPassValid(true);
+    } else {
+      setIsPassValid(false);
+    }
+
+    setPassValue(inputValue);
+  };
+
+  const onPassBlur = () => {
+    setIsPassTouched(true);
+  };
 
   const onTogglePassClick = () => {
     setIsPassShown((isShown) => (isShown = !isShown));
@@ -17,14 +71,28 @@ const Login = () => {
 
   return (
     <Modal handler={() => setIsloginShown(false)}>
-      <form className={styles.login}>
+      <form className={styles.login} onSubmit={onFormSubmit}>
         <h2>Please login to order</h2>
         <div className={styles.inputs}>
-          <label className={styles["input-login"]}>
-            <input type={"text"} placeholder="User Login" />
+          <label className={`${styles["input-login"]} ${isLoginError && styles.error}`}>
+            <input
+              type={"text"}
+              placeholder="Login"
+              onChange={onLoginChange}
+              onBlur={onLoginBlur}
+              value={loginValue}
+            />
+            <span className={styles["error-message"]}>Login is too short</span>
           </label>
-          <label className={styles["input-pass"]}>
-            <input type={isPassShown ? "text" : "password"} placeholder="User Password" />
+          <label className={`${styles["input-pass"]} ${isPassError && styles.error}`}>
+            <input
+              type={isPassShown ? "text" : "password"}
+              placeholder="Password"
+              onChange={onPassChange}
+              onBlur={onPassBlur}
+              value={passValue}
+            />
+            <span className={styles["error-message"]}>Password is too short</span>
             <Button
               handler={onTogglePassClick}
               config={{ className: styles["password-button"] }}>
@@ -33,11 +101,22 @@ const Login = () => {
           </label>
           <div className={styles.buttons}>
             <Button
-              handler={() => setIsloginShown(false)}
+              handler={() => {
+                resetForm();
+                setIsloginShown(false);
+              }}
               config={{ className: styles["login-button"] }}>
               Close
             </Button>
-            <Button config={{ className: styles["login-button"] }}>Login</Button>
+            <Button
+              config={{
+                type: "submit",
+                className: styles["login-button"],
+                isDisabled: !isFormValid,
+                withSpinner: false,
+              }}>
+              Login
+            </Button>
           </div>
         </div>
       </form>

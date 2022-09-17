@@ -14,6 +14,12 @@
   max-width: 50%;
 }
 
+.input-login,
+.input-pass {
+  position: relative;
+  margin-bottom: 20px;
+}
+
 .input-login input,
 .input-pass input {
   width: 100%;
@@ -24,8 +30,38 @@
   border-radius: 6px;
 }
 
-.input-login + .input-pass {
-  margin-top: var(--gap);
+.input-login input::placeholder,
+.input-pass input::placeholder {
+  color: #cccccc;
+}
+
+.input-login.error input,
+.input-pass.error input {
+  border-color: #9b2c00;
+}
+
+.input-login.error .error-message,
+.input-pass.error .error-message {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.error-message {
+  position: absolute;
+  bottom: -16px;
+  left: 15px;
+  font-size: 10px;
+  color: #9b2c00;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition-property: opacity, transform;
+  transition-duration: 0.2s;
+}
+
+.input-login.error .error-message,
+.input-pass.error .error-message {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .buttons {
@@ -40,10 +76,6 @@
   width: 100%;
   max-width: 48%;
   margin: 0;
-}
-
-.input-pass {
-  position: relative;
 }
 
 .password-button {
