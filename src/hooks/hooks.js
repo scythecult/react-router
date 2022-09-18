@@ -43,19 +43,22 @@ const useHttp = ({ url, method = "GET" }) => {
   return [fetchData, { postResponse, isError, isLoading }];
 };
 
-const useValidation = (value, isValid) => {
+const useValidation = (isValid) => {
+  const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(false);
   const [isInputTouched, setIsInputTouched] = useState(false);
 
   useEffect(() => {
-    if (isValid(value)) {
+    if (isValid(inputValue)) {
       setIsInputValid(true);
     } else {
       setIsInputValid(false);
     }
-  }, [value, isValid]);
+  }, [inputValue, isValid]);
 
-  return [isInputValid, isInputTouched, setIsInputTouched];
+  const isError = !isInputValid && isInputTouched;
+
+  return [inputValue, isError, setInputValue, setIsInputTouched];
 };
 
 export { useHttp, useValidation };

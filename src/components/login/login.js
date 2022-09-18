@@ -13,21 +13,13 @@ const validatePass = (value) => value.trim().length > 7;
 
 const Login = () => {
   const { setIsLoginShown } = useContext(CartContext);
-  const [loginValue, setLoginValue] = useState("");
-  const [passValue, setPassValue] = useState("");
-  const [isLoginValid, isLoginTouched, setIsloginTouched] = useValidation(
-    loginValue,
-    validateLogin
-  );
-  const [isPassValid, isPassTouched, setIsPassTouched] = useValidation(
-    passValue,
-    validatePass
-  );
   const [isPassShown, setIsPassShown] = useState(false);
+  const [loginValue, isLoginError, setLoginValue, setIsloginTouched] =
+    useValidation(validateLogin);
+  const [passValue, isPassError, setPassValue, setIsPassTouched] =
+    useValidation(validatePass);
 
-  const isLoginError = !isLoginValid && isLoginTouched;
-  const isPassError = !isPassValid && isPassTouched;
-  const isFormValid = isLoginValid && isPassValid;
+  const isFormValid = !isLoginError && !isPassError;
 
   const onFormSubmit = (evt) => {
     evt.preventDefault();
@@ -39,6 +31,8 @@ const Login = () => {
   const resetForm = () => {
     setLoginValue("");
     setPassValue("");
+    setIsloginTouched(false);
+    setIsPassTouched(false);
   };
 
   const onLoginChange = (evt) => {
