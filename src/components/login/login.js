@@ -6,24 +6,27 @@ import { Button } from "../UI/button";
 import styles from "./login.module.css";
 import visible from "./media/visible.png";
 import invisible from "./media/invisible.png";
-import { useValidation } from "../../hooks/hooks";
+import { useHttp, useValidation } from "../../hooks/hooks";
+import { FIRE_DB_USERS } from "../../constants/constants";
 
 const validateLogin = (value) => value.trim().length > 4;
 const validatePass = (value) => value.trim().length > 7;
 
 const Login = () => {
   const { setIsLoginShown } = useContext(CartContext);
+  const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "POST" });
   const [isPassShown, setIsPassShown] = useState(false);
-  const [loginValue, isLoginError, setLoginValue, setIsloginTouched] =
+  const [loginValue, isLoginError, isLoginValid, setLoginValue, setIsloginTouched] =
     useValidation(validateLogin);
-  const [passValue, isPassError, setPassValue, setIsPassTouched] =
+  const [passValue, isPassError, isPassValid, setPassValue, setIsPassTouched] =
     useValidation(validatePass);
 
-  const isFormValid = !isLoginError && !isPassError;
+  const isFormValid = isLoginValid && isPassValid;
 
   const onFormSubmit = (evt) => {
     evt.preventDefault();
 
+    fetchData({ loginValue, passValue }).then((response) => console.log(response));
     console.log("send data to firebase", { loginValue, passValue });
     resetForm();
   };
@@ -33,6 +36,7 @@ const Login = () => {
     setPassValue("");
     setIsloginTouched(false);
     setIsPassTouched(false);
+    setIsLoginShown(false);
   };
 
   const onLoginChange = (evt) => {

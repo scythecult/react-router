@@ -49,7 +49,7 @@ const useValidation = (isValid) => {
   const valueIsValid = isValid(inputValue);
   const hasError = !valueIsValid && isTouched;
 
-  return [inputValue, hasError, setInputValue, setIsTouched];
+  return [inputValue, hasError, valueIsValid, setInputValue, setIsTouched];
 };
 
 export { useHttp, useValidation };
