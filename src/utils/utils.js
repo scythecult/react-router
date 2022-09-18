@@ -6,10 +6,15 @@ const getCartQuantity = (items) => {
   }, 0);
 };
 
+const transformObject = (object) => {
+  return Object.values(object);
+};
+
 const transformData = (data = {}) => {
   const transformed = [];
+  const items = transformObject(data);
 
-  for (const values of Object.values(data)) {
+  for (const values of items) {
     if (!Array.isArray(values)) return [];
     transformed.push(...values);
   }
@@ -21,4 +26,4 @@ const transformData = (data = {}) => {
   return uniqueItems;
 };
 
-export { getCartQuantity, transformData };
+export { getCartQuantity, transformData, transformObject };

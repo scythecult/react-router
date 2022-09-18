@@ -5,9 +5,10 @@ import {
   mergeRecentWithCart,
   removeMealFromRecent,
 } from "../../actions/actions";
-import { FIRE_DB_URL } from "../../constants/constants";
+import { FIRE_DB_MEALS } from "../../constants/constants";
 import { CartContext, DispatchContext } from "../../context/context";
 import { useHttp } from "../../hooks/hooks";
+import { transformData } from "../../utils/utils";
 import { Meal } from "../meal/meal";
 import { Button } from "../UI/button";
 import { Card } from "../UI/card";
@@ -19,7 +20,7 @@ const RecentItems = React.memo(() => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const [fetchData] = useHttp({
-    url: FIRE_DB_URL,
+    url: FIRE_DB_MEALS,
   });
   const dispatch = useContext(DispatchContext);
 
@@ -44,10 +45,14 @@ const RecentItems = React.memo(() => {
 
   useEffect(() => {
     fetchData().then((response) => {
-      if (!response?.length) return;
+      if (response) {
+        const data = transformData(response);
 
-      setIsVisible(true);
-      dispatch(addRecentMeals(response));
+        if (!data?.length) return;
+
+        setIsVisible(true);
+        dispatch(addRecentMeals(data));
+      }
     });
   }, []);
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { clearCart } from "../../actions/actions";
-import { FIRE_DB_URL } from "../../constants/constants";
+import { FIRE_DB_MEALS } from "../../constants/constants";
 import { CartContext, DispatchContext } from "../../context/context";
 import { useHttp } from "../../hooks/hooks";
 import { CartItem } from "../cart-item/cart-item";
@@ -11,7 +11,7 @@ import styles from "./cart.module.css";
 const Cart = React.memo(() => {
   const { cartItems, setIsCartShown } = useContext(CartContext);
   const [fetchData, { postResponse, isError, isLoading }] = useHttp({
-    url: FIRE_DB_URL,
+    url: FIRE_DB_MEALS,
     method: "POST",
   });
   const dispatch = useContext(DispatchContext);

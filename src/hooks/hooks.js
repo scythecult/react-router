@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { transformData } from "../utils/utils";
+import { useState } from "react";
 
 const useHttp = ({ url, method = "GET" }) => {
   const [postResponse, setPostResponse] = useState(null);
@@ -31,7 +30,7 @@ const useHttp = ({ url, method = "GET" }) => {
           setPostResponse(data);
         }
 
-        return transformData(data);
+        return data;
       }
     } catch {
       setIsError(true);
