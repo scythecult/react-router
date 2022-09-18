@@ -6,15 +6,23 @@ import { Button } from "../UI/button";
 import styles from "./login.module.css";
 import visible from "./media/visible.png";
 import invisible from "./media/invisible.png";
+import { useValidation } from "../../hooks/hooks";
+
+const validateLogin = (value) => value.trim().length > 4;
+const validatePass = (value) => value.trim().length > 7;
 
 const Login = () => {
   const { setIsLoginShown } = useContext(CartContext);
   const [loginValue, setLoginValue] = useState("");
-  const [isLoginValid, setIsloginValid] = useState(false);
-  const [isLoginTouched, setIsloginTouched] = useState(false);
   const [passValue, setPassValue] = useState("");
-  const [isPassValid, setIsPassValid] = useState(false);
-  const [isPassTouched, setIsPassTouched] = useState(false);
+  const [isLoginValid, isLoginTouched, setIsloginTouched] = useValidation(
+    loginValue,
+    validateLogin
+  );
+  const [isPassValid, isPassTouched, setIsPassTouched] = useValidation(
+    passValue,
+    validatePass
+  );
   const [isPassShown, setIsPassShown] = useState(false);
 
   const isLoginError = !isLoginValid && isLoginTouched;
@@ -34,15 +42,7 @@ const Login = () => {
   };
 
   const onLoginChange = (evt) => {
-    const inputValue = evt.target.value;
-
-    if (inputValue.trim().length > 4) {
-      setIsloginValid(true);
-    } else {
-      setIsloginValid(false);
-    }
-
-    setLoginValue(inputValue);
+    setLoginValue(evt.target.value);
   };
 
   const onLoginBlur = () => {
@@ -50,15 +50,7 @@ const Login = () => {
   };
 
   const onPassChange = (evt) => {
-    const inputValue = evt.target.value;
-
-    if (inputValue.trim().length > 7) {
-      setIsPassValid(true);
-    } else {
-      setIsPassValid(false);
-    }
-
-    setPassValue(inputValue);
+    setPassValue(evt.target.value);
   };
 
   const onPassBlur = () => {

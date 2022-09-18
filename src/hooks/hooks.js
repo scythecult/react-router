@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { transformData } from "../utils/utils";
 
 const useHttp = ({ url, method = "GET" }) => {
@@ -43,4 +43,19 @@ const useHttp = ({ url, method = "GET" }) => {
   return [fetchData, { postResponse, isError, isLoading }];
 };
 
-export { useHttp };
+const useValidation = (value, isValid) => {
+  const [isInputValid, setIsInputValid] = useState(false);
+  const [isInputTouched, setIsInputTouched] = useState(false);
+
+  useEffect(() => {
+    if (isValid(value)) {
+      setIsInputValid(true);
+    } else {
+      setIsInputValid(false);
+    }
+  }, [value, isValid]);
+
+  return [isInputValid, isInputTouched, setIsInputTouched];
+};
+
+export { useHttp, useValidation };
