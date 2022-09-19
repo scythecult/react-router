@@ -7,12 +7,9 @@ import {
   REMOVE_MEAL_FROM_CART,
   REMOVE_MEAL_FROM_RECENT,
 } from "../actions/actions";
-import { getMeals } from "../services/meals";
-
-const meals = getMeals();
 
 const initialState = {
-  meals,
+  meals: [],
   cartItems: [],
   recentItems: [],
 };

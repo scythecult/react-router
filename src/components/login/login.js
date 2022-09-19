@@ -13,8 +13,8 @@ const validateLogin = (value) => value.trim().length > 4;
 const validatePass = (value) => value.trim().length > 7;
 
 const Login = () => {
-  const { setIsLoginShown } = useContext(CartContext);
-  const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "POST" });
+  const { setIsLoginShown, setIsLoggedIn } = useContext(CartContext);
+  const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
   const [isPassShown, setIsPassShown] = useState(false);
   const [loginValue, isLoginError, isLoginValid, setLoginValue, setIsloginTouched] =
     useValidation(validateLogin);
@@ -25,10 +25,32 @@ const Login = () => {
 
   const onFormSubmit = (evt) => {
     evt.preventDefault();
+    //1. check id in LS
+    // if LS has stored id
 
-    fetchData({ loginValue, passValue }).then((response) => console.log(response));
-    console.log("send data to firebase", { loginValue, passValue });
-    resetForm();
+    //2. send request
+    fetchData().then((response) => {
+      if (response) {
+        for (const [key, value] of Object.entries(response)) {
+          //3. check if response includes stored id
+          // 3. check if response includes pass & login equal to entered pass & login
+          // if(key === storedId)
+          if (value.loginValue === loginValue && value.passValue === passValue) {
+            // if yes - authorize user
+            // if no - create new user, autorize user
+            console.log(key, value);
+            console.log("logged in");
+            setIsLoggedIn(true);
+            return;
+          } else {
+            console.log("new user has been created");
+          }
+        }
+      }
+    });
+    // fetchData({ loginValue, passValue }).then((response) => console.log(response));
+    // console.log("try to send data to firebase", { loginValue, passValue });
+    // resetForm();
   };
 
   const resetForm = () => {

@@ -11,6 +11,7 @@ import { Login } from "./components/login/login";
 
 const App = () => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isCartShown, setIsCartShown] = useState(false);
   const [isLoginShown, setIsLoginShown] = useState(false);
 
@@ -20,8 +21,10 @@ const App = () => {
         value={{
           state,
           cartItems: state.cartItems,
+          isLoggedIn,
           setIsCartShown,
           setIsLoginShown,
+          setIsLoggedIn,
         }}>
         <div className={styles.app}>
           <Header />
