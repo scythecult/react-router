@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { fetchMeals } from "../../actions/actions";
 import { FIRE_DB_STORED_MEALS } from "../../constants/constants";
+import { CartContext, DispatchContext } from "../../context/context";
 import { useHttp } from "../../hooks/hooks";
 import { transformObject } from "../../utils/utils";
 import { Form } from "../meal/form";
@@ -8,7 +10,8 @@ import { Card } from "../UI/card";
 import styles from "./meals.module.css";
 
 const Meals = React.memo(() => {
-  const [meals, setMeals] = useState([]);
+  const { state } = useContext(CartContext);
+  const dispatch = useContext(DispatchContext);
   const [fetchData] = useHttp({
     url: FIRE_DB_STORED_MEALS,
   });
@@ -20,7 +23,7 @@ const Meals = React.memo(() => {
 
         if (!data.length) return;
 
-        setMeals(data);
+        dispatch(fetchMeals(data));
       }
     });
   }, []);
@@ -29,7 +32,7 @@ const Meals = React.memo(() => {
     <div className={styles.meals}>
       <Card>
         <ul>
-          {meals.map((meal) => (
+          {state.meals.map((meal) => (
             <Meal key={meal.id} {...meal}>
               <Form id={meal.id} />
             </Meal>

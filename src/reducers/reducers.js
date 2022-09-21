@@ -3,6 +3,7 @@ import {
   ADD_RECENT_MEALS,
   CLEAR_CART,
   CLEAR_RECENT,
+  FETCH_MEALS,
   MERGE_RECENT_WITH_CART_MEALS,
   REMOVE_MEAL_FROM_CART,
   REMOVE_MEAL_FROM_RECENT,
@@ -20,6 +21,10 @@ const updateItems = (items, newItem, index) => {
 
 const cartReducer = (state, action) => {
   switch (action.type) {
+    case FETCH_MEALS: {
+      return { ...state, meals: [...action.payload] };
+    }
+
     case ADD_MEAL_TO_CART: {
       const targetMeal = state.meals.find((meal) => meal.id === action.payload.id);
       const cartItemIndex = state.cartItems.findIndex(
