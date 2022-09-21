@@ -9,7 +9,7 @@ import { Button } from "../UI/button";
 import styles from "./cart.module.css";
 
 const Cart = React.memo(() => {
-  const { cartItems, setIsCartShown } = useContext(CartContext);
+  const { cartItems, setIsCartShown, isLoggedIn } = useContext(CartContext);
   const [fetchData, { postResponse, isError, isLoading }] = useHttp({
     url: FIRE_DB_MEALS,
     method: "POST",
@@ -51,6 +51,10 @@ const Cart = React.memo(() => {
     modalContent = <p>Your order has been accepted, await operator call!😎</p>;
   }
 
+  if (!isLoggedIn) {
+    modalContent = <p>Please log in to order ¯\_(ツ)_/¯</p>;
+  }
+
   useEffect(() => {
     if (isSuccess) {
       dispatch(clearCart());
@@ -66,7 +70,7 @@ const Cart = React.memo(() => {
           handler={() => setIsCartShown(false)}>
           Close
         </Button>
-        {hasCartItems && !isError && (
+        {hasCartItems && !isError && isLoggedIn && (
           <Button
             config={{ type: "button", isDisabled: isLoading }}
             handler={() => fetchData(cartItems)}>
