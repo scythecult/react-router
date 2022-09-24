@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { CartContext } from "../../context/context";
 import { Modal } from "../modal/modal";
 import { Button } from "../UI/button";
@@ -16,6 +16,7 @@ const Login = () => {
   const { setIsLoginShown, setIsLoggedIn, setCurrentUser, isLoggedIn, currentUser } =
     useContext(CartContext);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
+  const [postNewUser] = useHttp({ url: FIRE_DB_USERS, method: "POST" });
   const [isPassShown, setIsPassShown] = useState(false);
   const [loginValue, isLoginError, isLoginValid, setLoginValue, setIsloginTouched] =
     useValidation(validateLogin);
@@ -24,38 +25,36 @@ const Login = () => {
 
   const isFormValid = isLoginValid && isPassValid;
 
+  const setUserInfo = ({ userId, loginValue, passValue }) => {
+    setIsLoggedIn(true);
+    setIsLoginShown(false);
+    setCurrentUser({ userId, loginValue, passValue });
+    localStorage.setItem(userId, JSON.stringify({ loginValue, passValue }));
+  };
+
   const onFormSubmit = (evt) => {
     evt.preventDefault();
-    //1. check id in LS
-    // if LS has stored id
 
-    //2. send request
     fetchData().then((response) => {
       if (response) {
         for (const [key, value] of Object.entries(response)) {
-          //3. check if response includes stored id
-          // 3. check if response includes pass & login equal to entered pass & login
-          // if(key === storedId)
           if (value.loginValue === loginValue && value.passValue === passValue) {
-            // if yes - authorize user
-            console.log(key, value);
-            console.log("logged in");
-            setIsLoggedIn(true);
-            setIsLoginShown(false);
-            setCurrentUser({ userId: key, ...value });
-            localStorage.setItem(key, JSON.stringify(value));
-
+            setUserInfo({ userId: key, loginValue, passValue });
             return;
-          } else {
-            // if no - create new user, autorize user
-            console.log("new user has been created");
           }
         }
+
+        postNewUser({ loginValue, passValue }).then((response) => {
+          if (response) {
+            setUserInfo({
+              userId: response.name,
+              loginValue,
+              passValue,
+            });
+          }
+        });
       }
     });
-    // fetchData({ loginValue, passValue }).then((response) => console.log(response));
-    // console.log("try to send data to firebase", { loginValue, passValue });
-    // resetForm();
   };
 
   const resetForm = () => {

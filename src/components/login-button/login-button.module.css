@@ -13,7 +13,8 @@
 }
 
 .login-button.logged-in {
-  border-color: greenyellow;
+  color: greenyellow;
+  border-color: currentColor;
 }
 
 .login-button svg {
