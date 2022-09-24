@@ -21,3 +21,7 @@
   width: 100%;
   max-width: 330px;
 }
+
+.header-user-actions.logged-in {
+  max-width: 460px;
+}

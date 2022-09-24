@@ -17,6 +17,7 @@ const App = () => {
   const [isCartShown, setIsCartShown] = useState(false);
   const [isLoginShown, setIsLoginShown] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [isNewUser, setIsNewUser] = useState(false);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
 
   useEffect(() => {
@@ -40,10 +41,12 @@ const App = () => {
           cartItems: state.cartItems,
           isLoggedIn,
           currentUser,
+          isNewUser,
           setIsCartShown,
           setIsLoginShown,
           setIsLoggedIn,
           setCurrentUser,
+          setIsNewUser,
         }}>
         <div className={styles.app}>
           <Header />

@@ -13,8 +13,14 @@ const validateLogin = (value) => value.trim().length > 4;
 const validatePass = (value) => value.trim().length > 7;
 
 const Login = () => {
-  const { setIsLoginShown, setIsLoggedIn, setCurrentUser, isLoggedIn, currentUser } =
-    useContext(CartContext);
+  const {
+    setIsLoginShown,
+    setIsLoggedIn,
+    setCurrentUser,
+    isLoggedIn,
+    currentUser,
+    setIsNewUser,
+  } = useContext(CartContext);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
   const [postNewUser] = useHttp({ url: FIRE_DB_USERS, method: "POST" });
   const [isPassShown, setIsPassShown] = useState(false);
@@ -45,6 +51,7 @@ const Login = () => {
           const [userId, userInfo] = existingUser;
 
           setUserInfo({ userId, ...userInfo });
+          setIsNewUser(false);
         } else {
           postNewUser({ loginValue, passValue }).then((response) => {
             if (response) {
@@ -53,6 +60,7 @@ const Login = () => {
                 loginValue,
                 passValue,
               });
+              setIsNewUser(true);
             }
           });
         }
