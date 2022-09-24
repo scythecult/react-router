@@ -37,22 +37,25 @@ const Login = () => {
 
     fetchData().then((response) => {
       if (response) {
-        for (const [key, value] of Object.entries(response)) {
-          if (value.loginValue === loginValue && value.passValue === passValue) {
-            setUserInfo({ userId: key, loginValue, passValue });
-            return;
-          }
-        }
+        const existingUser = Object.entries(response).find(
+          ([_, value]) => value.loginValue === loginValue && value.passValue === passValue
+        );
 
-        postNewUser({ loginValue, passValue }).then((response) => {
-          if (response) {
-            setUserInfo({
-              userId: response.name,
-              loginValue,
-              passValue,
-            });
-          }
-        });
+        if (existingUser?.length) {
+          const [userId, userInfo] = existingUser;
+
+          setUserInfo({ userId, ...userInfo });
+        } else {
+          postNewUser({ loginValue, passValue }).then((response) => {
+            if (response) {
+              setUserInfo({
+                userId: response.name,
+                loginValue,
+                passValue,
+              });
+            }
+          });
+        }
       }
     });
   };
