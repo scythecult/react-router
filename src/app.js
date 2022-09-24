@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import styles from "./app.module.css";
 import { CartContext, DispatchContext } from "./context/context";
 import { Cart } from "./components/cart/cart";
@@ -8,12 +8,29 @@ import { Meals } from "./components/meals/meals";
 import { cartReducer, initialState } from "./reducers/reducers";
 import { RecentItems } from "./components/recent-items/recent-items";
 import { Login } from "./components/login/login";
+import { useHttp } from "./hooks/hooks";
+import { FIRE_DB_USERS } from "./constants/constants";
 
 const App = () => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isCartShown, setIsCartShown] = useState(false);
   const [isLoginShown, setIsLoginShown] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
+
+  useEffect(() => {
+    fetchData().then((response) => {
+      if (response) {
+        for (const [key, value] of Object.entries(response)) {
+          if (localStorage.getItem(key)) {
+            setIsLoggedIn(true);
+            setCurrentUser({ userId: key, ...value });
+          }
+        }
+      }
+    });
+  }, []);
 
   return (
     <DispatchContext.Provider value={dispatch}>
@@ -22,9 +39,11 @@ const App = () => {
           state,
           cartItems: state.cartItems,
           isLoggedIn,
+          currentUser,
           setIsCartShown,
           setIsLoginShown,
           setIsLoggedIn,
+          setCurrentUser,
         }}>
         <div className={styles.app}>
           <Header />

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/context";
 import { Modal } from "../modal/modal";
 import { Button } from "../UI/button";
@@ -13,7 +13,8 @@ const validateLogin = (value) => value.trim().length > 4;
 const validatePass = (value) => value.trim().length > 7;
 
 const Login = () => {
-  const { setIsLoginShown, setIsLoggedIn } = useContext(CartContext);
+  const { setIsLoginShown, setIsLoggedIn, setCurrentUser, isLoggedIn, currentUser } =
+    useContext(CartContext);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
   const [isPassShown, setIsPassShown] = useState(false);
   const [loginValue, isLoginError, isLoginValid, setLoginValue, setIsloginTouched] =
@@ -37,12 +38,16 @@ const Login = () => {
           // if(key === storedId)
           if (value.loginValue === loginValue && value.passValue === passValue) {
             // if yes - authorize user
-            // if no - create new user, autorize user
             console.log(key, value);
             console.log("logged in");
             setIsLoggedIn(true);
+            setIsLoginShown(false);
+            setCurrentUser({ userId: key, ...value });
+            localStorage.setItem(key, JSON.stringify(value));
+
             return;
           } else {
+            // if no - create new user, autorize user
             console.log("new user has been created");
           }
         }
@@ -81,8 +86,27 @@ const Login = () => {
     setIsPassShown((isShown) => (isShown = !isShown));
   };
 
-  return (
-    <Modal handler={() => setIsLoginShown(false)}>
+  const onLogoutClick = () => {
+    setIsLoggedIn(false);
+    setIsLoginShown(false);
+    localStorage.removeItem(currentUser.userId);
+  };
+
+  let userInfoContent = (
+    <div className={styles["user-info"]}>
+      <h2>User info</h2>
+      <p>
+        Your Login: <span>{currentUser.loginValue}</span>
+      </p>
+      <p>
+        Your Password: <span>{currentUser.passValue}</span>
+      </p>
+      <Button handler={onLogoutClick}>Log out</Button>
+    </div>
+  );
+
+  if (!isLoggedIn) {
+    userInfoContent = (
       <form className={styles.login} onSubmit={onFormSubmit}>
         <h2>Please login to order</h2>
         <div className={styles.inputs}>
@@ -132,8 +156,10 @@ const Login = () => {
           </div>
         </div>
       </form>
-    </Modal>
-  );
+    );
+  }
+
+  return <Modal handler={() => setIsLoginShown(false)}>{userInfoContent}</Modal>;
 };
 
 export { Login };

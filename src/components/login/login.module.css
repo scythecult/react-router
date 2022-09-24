@@ -102,3 +102,16 @@
   max-width: 100%;
   height: auto;
 }
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+  max-width: 320px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.user-info button {
+  margin: 0;
+}
