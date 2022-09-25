@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/context";
 import styles from "./login-tooltip.module.css";
 
-const LoginTooltip = () => {
+const LoginTooltip = React.memo(() => {
   const { currentUser, isLoggedIn, isNewUser } = useContext(CartContext);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -25,6 +25,6 @@ const LoginTooltip = () => {
       {tooltipContent}
     </div>
   );
-};
+});
 
 export { LoginTooltip };

@@ -1,6 +1,6 @@
 import React from "react";
 
-const UserIcon = () => {
+const UserIcon = React.memo(() => {
   return (
     <svg
       version="1.1"
@@ -15,6 +15,6 @@ const UserIcon = () => {
       />
     </svg>
   );
-};
+});
 
 export { UserIcon };
