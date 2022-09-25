@@ -17,7 +17,7 @@ import styles from "./recent-items.module.css";
 
 const RecentItems = React.memo(() => {
   const STORAGE_KEY = "isExpanded";
-  const { state } = useContext(CartContext);
+  const { state, isLoggedIn } = useContext(CartContext);
   const [isExpanded, setIsExpanded] = useState(localStorage.getItem(STORAGE_KEY) || true);
   const [isVisible, setIsVisible] = useState(false);
   const [fetchData] = useHttp({
@@ -72,7 +72,7 @@ const RecentItems = React.memo(() => {
   return (
     <section
       className={`${styles.recent} ${isExpanded && styles.expanded} ${
-        isVisible && styles.visible
+        isVisible && isLoggedIn && styles.visible
       }`}>
       <Button handler={onToggleExpandClick} config={{ className: styles["head-button"] }}>
         <span className={styles["head-button__title"]}>Last time you ordered:</span>
