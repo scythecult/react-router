@@ -16,8 +16,9 @@ import { Card } from "../UI/card";
 import styles from "./recent-items.module.css";
 
 const RecentItems = React.memo(() => {
+  const STORAGE_KEY = "isExpanded";
   const { state } = useContext(CartContext);
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(localStorage.getItem(STORAGE_KEY) || true);
   const [isVisible, setIsVisible] = useState(false);
   const [fetchData] = useHttp({
     url: FIRE_DB_MEALS,
@@ -36,6 +37,18 @@ const RecentItems = React.memo(() => {
   const onRemoveMealClick = (id) => {
     dispatch(removeMealFromRecent(id));
   };
+
+  useEffect(() => {
+    const storedData = localStorage.getItem(STORAGE_KEY);
+
+    if (storedData) {
+      setIsExpanded(JSON.parse(storedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, isExpanded);
+  }, [isExpanded]);
 
   useEffect(() => {
     if (state.recentItems.length === 0) {
