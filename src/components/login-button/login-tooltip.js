@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/context";
 import styles from "./login-tooltip.module.css";
 
@@ -11,6 +11,14 @@ const LoginTooltip = () => {
     : `Welcome back ${currentUser.loginValue}`;
   const tooltipClasses =
     isLoggedIn && isVisible ? `${styles.tooltip} ${styles.shown}` : `${styles.tooltip}`;
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setIsVisible(false);
+    }, 2000);
+
+    return () => clearTimeout(timerId);
+  });
 
   return (
     <div className={tooltipClasses} onClick={() => setIsVisible(false)}>

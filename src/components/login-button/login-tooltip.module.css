@@ -16,9 +16,11 @@
   transition-delay: 0.1s;
   cursor: pointer;
   user-select: none;
+  pointer-events: none;
 }
 
 .tooltip.shown {
   opacity: 1;
   transform: translateX(0px);
+  pointer-events: all;
 }
