@@ -1,0 +1,62 @@
+.loading {
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.loading.small {
+  font-size: 24px;
+}
+
+.loading.medium {
+  font-size: 36px;
+}
+
+.loading.large {
+  font-size: 42px;
+}
+
+.dot {
+  --duration: 1s;
+  display: inline-block;
+  animation-name: dot-pulse;
+  animation-duration: var(--duration);
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+}
+
+.dot.fast {
+  --duration: 0.5s;
+}
+
+.dot.medium {
+  --duration: 1s;
+}
+.dot.slow {
+  --duration: 2s;
+}
+
+.dot--2 {
+  animation-delay: 0.2s;
+}
+
+.dot--3 {
+  animation-delay: 0.4s;
+}
+
+@keyframes dot-pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  50% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}

@@ -4,6 +4,7 @@ import { FIRE_DB_STORED_MEALS } from "../../constants/constants";
 import { CartContext, DispatchContext } from "../../context/context";
 import { useHttp } from "../../hooks/hooks";
 import { transformObject } from "../../utils/utils";
+import { LoadingIndicatior } from "../loading-indicatior/loading-indicatior";
 import { Form } from "../meal/form";
 import { Meal } from "../meal/meal";
 import { Card } from "../UI/card";
@@ -12,7 +13,7 @@ import styles from "./meals.module.css";
 const Meals = React.memo(() => {
   const { state } = useContext(CartContext);
   const dispatch = useContext(DispatchContext);
-  const [fetchData] = useHttp({
+  const [fetchData, { isLoading }] = useHttp({
     url: FIRE_DB_STORED_MEALS,
   });
 
@@ -27,6 +28,10 @@ const Meals = React.memo(() => {
       }
     });
   }, []);
+
+  if (isLoading) {
+    return <LoadingIndicatior config={{ size: "small", duration: "fast" }} />;
+  }
 
   return (
     <div className={styles.meals}>
