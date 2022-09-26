@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "./app.module.css";
+import { Counter } from "./components/Counter";
 
 const App = () => {
-  return <div className={styles.app}></div>;
+  return <Counter />;
 };
 
 export { App };
