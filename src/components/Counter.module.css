@@ -21,3 +21,10 @@
   margin: 2rem 0;
   font-weight: bold;
 }
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  column-gap: 1rem;
+  margin-bottom: 1rem;
+}
