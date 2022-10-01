@@ -4,6 +4,10 @@ import { addUser, removeUser } from "../features/users/users-slice";
 
 import classes from "./Counter.module.css";
 
+const makeUpperCaseFirst = (string) => {
+  return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
+};
+
 const Users = () => {
   const users = useSelector((state) => state.users.value);
   const dispatch = useDispatch();
@@ -18,7 +22,7 @@ const Users = () => {
       setIsSame(isSame);
     } else {
       setIsSame(isSame);
-      dispatch(addUser(value));
+      dispatch(addUser(makeUpperCaseFirst(value)));
     }
   };
 
