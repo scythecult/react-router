@@ -12,11 +12,11 @@ const usersSlice = createSlice({
       state.value.push(action.payload);
     },
     removeUser: (state, action) => {
-      const deleteIndex = state.value.find(
+      const deleteIndex = state.value.findIndex(
         (user) => user.toLowerCase() === action.payload
       );
 
-      if (deleteIndex) {
+      if (deleteIndex !== -1) {
         state.value.splice(deleteIndex, 1);
       }
     },
