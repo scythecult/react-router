@@ -6,12 +6,12 @@ import { Header } from "./components/Header";
 import { Users } from "./components/Users";
 
 const App = () => {
-  useSelector((state) => console.log(state));
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   return (
     <>
       <Header />
-      <Auth />
+      {!isLoggedIn && <Auth />}
       <Counter />
       <Users />
     </>
