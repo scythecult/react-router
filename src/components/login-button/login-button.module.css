@@ -1,0 +1,28 @@
+.login-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 56px;
+  min-height: 56px;
+  color: #ffffff;
+  border-radius: 50%;
+  border: 2px solid #cccccc;
+  background-color: #4d1601;
+  cursor: pointer;
+}
+
+.login-button.logged-in {
+  color: greenyellow;
+  border-color: currentColor;
+}
+
+.login-button svg {
+  width: 21px;
+  height: auto;
+}
+
+.login-button:hover,
+.login-button:active {
+  background-color: #2c0d00;
+}
