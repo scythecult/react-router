@@ -1,3 +1,3 @@
-# React Redux
+# React @redux/toolkit
 
-Проект для закрепления основ Redux
+Проект для закрепления react + redux/toolkit
