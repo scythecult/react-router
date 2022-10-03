@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   addRecentMeals,
   clearRecent,
@@ -17,7 +18,10 @@ import styles from "./recent-items.module.css";
 
 const RecentItems = React.memo(() => {
   const STORAGE_KEY = "isExpanded";
-  const { state, isLoggedIn } = useContext(CartContext);
+
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
+  const { state } = useContext(CartContext);
   const [isExpanded, setIsExpanded] = useState(localStorage.getItem(STORAGE_KEY) || true);
   const [isVisible, setIsVisible] = useState(false);
   const [fetchData] = useHttp({

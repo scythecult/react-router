@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useSelector } from "react-redux";
 import { CartContext } from "../../context/context";
 import { CartButton } from "../cart-button/cart-button";
 import { LoginButton } from "../login-button/login-button";
@@ -7,7 +8,7 @@ import styles from "./header.module.css";
 import { Logo } from "./logo";
 
 const Header = React.memo(() => {
-  const { isLoggedIn } = useContext(CartContext);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const actionsClasses = isLoggedIn
     ? `${styles["header-user-actions"]} ${styles["logged-in"]}`
     : `${styles["header-user-actions"]}`;

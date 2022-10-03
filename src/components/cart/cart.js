@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { clearCart } from "../../actions/actions";
 import { FIRE_DB_MEALS } from "../../constants/constants";
 import { CartContext, DispatchContext } from "../../context/context";
@@ -9,7 +10,8 @@ import { Button } from "../UI/button";
 import styles from "./cart.module.css";
 
 const Cart = React.memo(() => {
-  const { cartItems, setIsCartShown, isLoggedIn } = useContext(CartContext);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { cartItems, setIsCartShown } = useContext(CartContext);
   const [fetchData, { postResponse, isError, isLoading }] = useHttp({
     url: FIRE_DB_MEALS,
     method: "POST",

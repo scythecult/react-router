@@ -8,19 +8,17 @@ import visible from "./media/visible.png";
 import invisible from "./media/invisible.png";
 import { useHttp, useValidation } from "../../hooks/hooks";
 import { FIRE_DB_USERS } from "../../constants/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logut } from "../../features/auth/user-auth";
 
 const validateLogin = (value) => value.trim().length > 4;
 const validatePass = (value) => value.trim().length > 7;
 
 const Login = () => {
-  const {
-    setIsLoginShown,
-    setIsLoggedIn,
-    setCurrentUser,
-    isLoggedIn,
-    currentUser,
-    setIsNewUser,
-  } = useContext(CartContext);
+  const dispatch2 = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { setIsLoginShown, setCurrentUser, currentUser, setIsNewUser } =
+    useContext(CartContext);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
   const [postNewUser] = useHttp({ url: FIRE_DB_USERS, method: "POST" });
   const [isPassShown, setIsPassShown] = useState(false);
@@ -32,7 +30,7 @@ const Login = () => {
   const isFormValid = isLoginValid && isPassValid;
 
   const setUserInfo = ({ userId, loginValue, passValue }) => {
-    setIsLoggedIn(true);
+    dispatch2(login());
     setIsLoginShown(false);
     setCurrentUser({ userId, loginValue, passValue });
     localStorage.setItem(userId, JSON.stringify({ loginValue, passValue }));
@@ -97,7 +95,8 @@ const Login = () => {
   };
 
   const onLogoutClick = () => {
-    setIsLoggedIn(false);
+    dispatch2(logut());
+
     setIsLoginShown(false);
     localStorage.removeItem(currentUser.userId);
   };

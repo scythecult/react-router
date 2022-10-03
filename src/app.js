@@ -10,8 +10,11 @@ import { RecentItems } from "./components/recent-items/recent-items";
 import { Login } from "./components/login/login";
 import { useHttp } from "./hooks/hooks";
 import { FIRE_DB_USERS } from "./constants/constants";
+import { useDispatch } from "react-redux";
+import { login } from "./features/auth/user-auth";
 
 const App = () => {
+  const dispatch2 = useDispatch();
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isCartShown, setIsCartShown] = useState(false);
@@ -25,6 +28,7 @@ const App = () => {
       if (response) {
         for (const [key, value] of Object.entries(response)) {
           if (localStorage.getItem(key)) {
+            dispatch2(login());
             setIsLoggedIn(true);
             setCurrentUser({ userId: key, ...value });
           }
