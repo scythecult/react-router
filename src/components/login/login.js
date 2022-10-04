@@ -9,19 +9,18 @@ import invisible from "./media/invisible.png";
 import { useHttp, useValidation } from "../../hooks/hooks";
 import { FIRE_DB_USERS } from "../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logut } from "../../features/auth/user-auth";
+import { login, logut, setIsNewUser, updateUser } from "../../features/auth/user-auth";
 
 const validateLogin = (value) => value.trim().length > 4;
 const validatePass = (value) => value.trim().length > 7;
 
 const Login = () => {
-  const dispatch2 = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const { setIsLoginShown, setCurrentUser, currentUser, setIsNewUser } =
-    useContext(CartContext);
+  const dispatch = useDispatch();
+  const { isLoggedIn, currentUser } = useSelector((state) => state.auth);
+  const { setIsLoginShown } = useContext(CartContext);
+  const [isPassShown, setIsPassShown] = useState(false);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
   const [postNewUser] = useHttp({ url: FIRE_DB_USERS, method: "POST" });
-  const [isPassShown, setIsPassShown] = useState(false);
   const [loginValue, isLoginError, isLoginValid, setLoginValue, setIsloginTouched] =
     useValidation(validateLogin);
   const [passValue, isPassError, isPassValid, setPassValue, setIsPassTouched] =
@@ -30,9 +29,9 @@ const Login = () => {
   const isFormValid = isLoginValid && isPassValid;
 
   const setUserInfo = ({ userId, loginValue, passValue }) => {
-    dispatch2(login());
+    dispatch(login());
+    dispatch(updateUser({ userId, loginValue, passValue }));
     setIsLoginShown(false);
-    setCurrentUser({ userId, loginValue, passValue });
     localStorage.setItem(userId, JSON.stringify({ loginValue, passValue }));
   };
 
@@ -49,7 +48,7 @@ const Login = () => {
           const [userId, userInfo] = existingUser;
 
           setUserInfo({ userId, ...userInfo });
-          setIsNewUser(false);
+          dispatch(setIsNewUser(false));
         } else {
           postNewUser({ loginValue, passValue }).then((response) => {
             if (response) {
@@ -58,7 +57,7 @@ const Login = () => {
                 loginValue,
                 passValue,
               });
-              setIsNewUser(true);
+              dispatch(setIsNewUser(true));
             }
           });
         }
@@ -95,7 +94,7 @@ const Login = () => {
   };
 
   const onLogoutClick = () => {
-    dispatch2(logut());
+    dispatch(logut());
 
     setIsLoginShown(false);
     localStorage.removeItem(currentUser.userId);

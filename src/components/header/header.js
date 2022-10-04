@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { CartContext } from "../../context/context";
 import { CartButton } from "../cart-button/cart-button";
 import { LoginButton } from "../login-button/login-button";
 import { LoginTooltip } from "../login-button/login-tooltip";

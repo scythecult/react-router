@@ -11,16 +11,13 @@ import { Login } from "./components/login/login";
 import { useHttp } from "./hooks/hooks";
 import { FIRE_DB_USERS } from "./constants/constants";
 import { useDispatch } from "react-redux";
-import { login } from "./features/auth/user-auth";
+import { login, updateUser } from "./features/auth/user-auth";
 
 const App = () => {
   const dispatch2 = useDispatch();
   const [state, dispatch] = useReducer(cartReducer, initialState);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isCartShown, setIsCartShown] = useState(false);
   const [isLoginShown, setIsLoginShown] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
-  const [isNewUser, setIsNewUser] = useState(false);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
 
   useEffect(() => {
@@ -29,8 +26,7 @@ const App = () => {
         for (const [key, value] of Object.entries(response)) {
           if (localStorage.getItem(key)) {
             dispatch2(login());
-            setIsLoggedIn(true);
-            setCurrentUser({ userId: key, ...value });
+            dispatch2(updateUser({ userId: key, ...value }));
           }
         }
       }
@@ -43,14 +39,8 @@ const App = () => {
         value={{
           state,
           cartItems: state.cartItems,
-          isLoggedIn,
-          currentUser,
-          isNewUser,
           setIsCartShown,
           setIsLoginShown,
-          setIsLoggedIn,
-          setCurrentUser,
-          setIsNewUser,
         }}>
         <div className={styles.app}>
           <Header />

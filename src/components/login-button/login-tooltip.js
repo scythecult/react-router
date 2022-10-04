@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { CartContext } from "../../context/context";
 import styles from "./login-tooltip.module.css";
 
 const LoginTooltip = React.memo(() => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const { currentUser, isNewUser } = useContext(CartContext);
+  const { isLoggedIn, isNewUser, currentUser } = useSelector((state) => state.auth);
   const [isVisible, setIsVisible] = useState(true);
 
   const tooltipContent = isNewUser
