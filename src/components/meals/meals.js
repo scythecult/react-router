@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from "react";
-import { fetchMeals } from "../../actions/actions";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FIRE_DB_STORED_MEALS } from "../../constants/constants";
-import { CartContext, DispatchContext } from "../../context/context";
+import { fetchMeals } from "../../features/fetch-meals/fetch-meals-slice";
 import { useHttp } from "../../hooks/hooks";
 import { transformObject } from "../../utils/utils";
 import { ErrorIndicatior } from "../error-indicator/error-indicator";
@@ -12,8 +12,8 @@ import { Card } from "../UI/card";
 import styles from "./meals.module.css";
 
 const Meals = React.memo(() => {
-  const { state } = useContext(CartContext);
-  const dispatch = useContext(DispatchContext);
+  const { value: meals } = useSelector((state) => state.meals);
+  const dispatch = useDispatch();
   const [fetchData, { isLoading, isError }] = useHttp({
     url: FIRE_DB_STORED_MEALS,
   });
@@ -24,7 +24,6 @@ const Meals = React.memo(() => {
         const data = transformObject(response);
 
         if (!data.length) return;
-
         dispatch(fetchMeals(data));
       }
     });
@@ -42,11 +41,13 @@ const Meals = React.memo(() => {
     <div className={styles.meals}>
       <Card>
         <ul>
-          {state.meals.map((meal) => (
-            <Meal key={meal.id} {...meal}>
-              <Form id={meal.id} />
-            </Meal>
-          ))}
+          {meals?.map((meal) => {
+            return (
+              <Meal key={meal.id} {...meal}>
+                <Form id={meal.id} />
+              </Meal>
+            );
+          })}
         </ul>
       </Card>
     </div>
