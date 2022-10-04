@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { CartContext } from "../../context/context";
+import React, { useState } from "react";
 import { Modal } from "../modal/modal";
 import { Button } from "../UI/button";
 
@@ -9,15 +8,20 @@ import invisible from "./media/invisible.png";
 import { useHttp, useValidation } from "../../hooks/hooks";
 import { FIRE_DB_USERS } from "../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logut, setIsNewUser, updateUser } from "../../features/auth/user-auth";
+import {
+  login,
+  logut,
+  setIsLoginShown,
+  setIsNewUser,
+  updateUser,
+} from "../../features/auth/user-auth";
 
 const validateLogin = (value) => value.trim().length > 4;
 const validatePass = (value) => value.trim().length > 7;
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn, currentUser } = useSelector((state) => state.auth);
-  const { setIsLoginShown } = useContext(CartContext);
+  const { isLoggedIn, currentUser, isLoginShown } = useSelector((state) => state.auth);
   const [isPassShown, setIsPassShown] = useState(false);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
   const [postNewUser] = useHttp({ url: FIRE_DB_USERS, method: "POST" });
@@ -31,7 +35,7 @@ const Login = () => {
   const setUserInfo = ({ userId, loginValue, passValue }) => {
     dispatch(login());
     dispatch(updateUser({ userId, loginValue, passValue }));
-    setIsLoginShown(false);
+    dispatch(setIsLoginShown(false));
     localStorage.setItem(userId, JSON.stringify({ loginValue, passValue }));
   };
 
@@ -70,7 +74,7 @@ const Login = () => {
     setPassValue("");
     setIsloginTouched(false);
     setIsPassTouched(false);
-    setIsLoginShown(false);
+    dispatch(setIsLoginShown(false));
   };
 
   const onLoginChange = (evt) => {
@@ -95,8 +99,7 @@ const Login = () => {
 
   const onLogoutClick = () => {
     dispatch(logut());
-
-    setIsLoginShown(false);
+    dispatch(setIsLoginShown(false));
     localStorage.removeItem(currentUser.userId);
   };
 
@@ -147,7 +150,7 @@ const Login = () => {
             <Button
               handler={() => {
                 resetForm();
-                setIsLoginShown(false);
+                dispatch(setIsLoginShown(false));
               }}
               config={{ className: styles["login-button"] }}>
               Close
@@ -167,7 +170,11 @@ const Login = () => {
     );
   }
 
-  return <Modal handler={() => setIsLoginShown(false)}>{userInfoContent}</Modal>;
+  return (
+    <Modal isShown={isLoginShown} handler={() => dispatch(setIsLoginShown(false))}>
+      {userInfoContent}
+    </Modal>
+  );
 };
 
 export { Login };

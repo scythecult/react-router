@@ -21,6 +21,10 @@
   animation: slide-down 300ms ease-out forwards;
 }
 
+.hidden {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .modal {
     width: 40rem;

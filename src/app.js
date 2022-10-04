@@ -17,7 +17,6 @@ const App = () => {
   const dispatch2 = useDispatch();
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const [isCartShown, setIsCartShown] = useState(false);
-  const [isLoginShown, setIsLoginShown] = useState(false);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
 
   useEffect(() => {
@@ -40,14 +39,13 @@ const App = () => {
           state,
           cartItems: state.cartItems,
           setIsCartShown,
-          setIsLoginShown,
         }}>
         <div className={styles.app}>
           <Header />
           <Hero />
           <Meals meals={state.meals} />
           {isCartShown && <Cart />}
-          {isLoginShown && <Login />}
+          <Login />
           <RecentItems />
         </div>
       </CartContext.Provider>
