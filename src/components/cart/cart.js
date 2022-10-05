@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../../actions/actions";
 import { FIRE_DB_MEALS } from "../../constants/constants";
 import { CartContext, DispatchContext } from "../../context/context";
+import { setIsCartVisible } from "../../features/render/render.slice";
 import { useHttp } from "../../hooks/hooks";
 import { CartItem } from "../cart-item/cart-item";
 import { Modal } from "../modal/modal";
@@ -10,8 +11,9 @@ import { Button } from "../UI/button";
 import styles from "./cart.module.css";
 
 const Cart = React.memo(() => {
+  const dispatch2 = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const { cartItems, setIsCartShown } = useContext(CartContext);
+  const { cartItems } = useContext(CartContext);
   const [fetchData, { postResponse, isError, isLoading }] = useHttp({
     url: FIRE_DB_MEALS,
     method: "POST",
@@ -64,12 +66,12 @@ const Cart = React.memo(() => {
   }, [isSuccess, dispatch]);
 
   return (
-    <Modal handler={() => setIsCartShown(false)}>
+    <Modal handler={() => dispatch2(setIsCartVisible(false))}>
       {modalContent}
       <p className={styles.actions}>
         <Button
           config={{ isAlt: true, type: "button" }}
-          handler={() => setIsCartShown(false)}>
+          handler={() => dispatch2(setIsCartVisible(false))}>
           Close
         </Button>
         {hasCartItems && !isError && isLoggedIn && (

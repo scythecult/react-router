@@ -8,20 +8,15 @@ import invisible from "./media/invisible.png";
 import { useHttp, useValidation } from "../../hooks/hooks";
 import { FIRE_DB_USERS } from "../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  login,
-  logut,
-  setIsLoginShown,
-  setIsNewUser,
-  updateUser,
-} from "../../features/auth/user-auth";
+import { login, logut, setIsNewUser, updateUser } from "../../features/auth/user-auth";
+import { setIsAuthVisible } from "../../features/render/render.slice";
 
 const validateLogin = (value) => value.trim().length > 4;
 const validatePass = (value) => value.trim().length > 7;
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn, currentUser, isLoginShown } = useSelector((state) => state.auth);
+  const { isLoggedIn, currentUser } = useSelector((state) => state.auth);
   const [isPassShown, setIsPassShown] = useState(false);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
   const [postNewUser] = useHttp({ url: FIRE_DB_USERS, method: "POST" });
@@ -35,7 +30,7 @@ const Login = () => {
   const setUserInfo = ({ userId, loginValue, passValue }) => {
     dispatch(login());
     dispatch(updateUser({ userId, loginValue, passValue }));
-    dispatch(setIsLoginShown(false));
+    dispatch(setIsAuthVisible(false));
     localStorage.setItem(userId, JSON.stringify({ loginValue, passValue }));
   };
 
@@ -74,7 +69,7 @@ const Login = () => {
     setPassValue("");
     setIsloginTouched(false);
     setIsPassTouched(false);
-    dispatch(setIsLoginShown(false));
+    dispatch(setIsAuthVisible(false));
   };
 
   const onLoginChange = (evt) => {
@@ -99,7 +94,7 @@ const Login = () => {
 
   const onLogoutClick = () => {
     dispatch(logut());
-    dispatch(setIsLoginShown(false));
+    dispatch(setIsAuthVisible(false));
     localStorage.removeItem(currentUser.userId);
   };
 
@@ -150,7 +145,7 @@ const Login = () => {
             <Button
               handler={() => {
                 resetForm();
-                dispatch(setIsLoginShown(false));
+                dispatch(setIsAuthVisible(false));
               }}
               config={{ className: styles["login-button"] }}>
               Close
@@ -171,9 +166,7 @@ const Login = () => {
   }
 
   return (
-    <Modal isShown={isLoginShown} handler={() => dispatch(setIsLoginShown(false))}>
-      {userInfoContent}
-    </Modal>
+    <Modal handler={() => dispatch(setIsAuthVisible(false))}>{userInfoContent}</Modal>
   );
 };
 

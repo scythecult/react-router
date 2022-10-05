@@ -1,7 +1,6 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import styles from "./app.module.css";
 import { CartContext, DispatchContext } from "./context/context";
-import { Cart } from "./components/cart/cart";
 import { Header } from "./components/header/header";
 import { Hero } from "./components/hero/hero";
 import { Meals } from "./components/meals/meals";
@@ -10,13 +9,14 @@ import { RecentItems } from "./components/recent-items/recent-items";
 import { Login } from "./components/login/login";
 import { useHttp } from "./hooks/hooks";
 import { FIRE_DB_USERS } from "./constants/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, updateUser } from "./features/auth/user-auth";
+import { Cart } from "./components/cart/cart";
 
 const App = () => {
   const dispatch2 = useDispatch();
+  const { isAuthVisible, isCartVisible } = useSelector((state) => state.render);
   const [state, dispatch] = useReducer(cartReducer, initialState);
-  const [isCartShown, setIsCartShown] = useState(false);
   const [fetchData] = useHttp({ url: FIRE_DB_USERS, method: "GET" });
 
   useEffect(() => {
@@ -38,14 +38,13 @@ const App = () => {
         value={{
           state,
           cartItems: state.cartItems,
-          setIsCartShown,
         }}>
         <div className={styles.app}>
           <Header />
           <Hero />
           <Meals meals={state.meals} />
-          {isCartShown && <Cart />}
-          <Login />
+          {isAuthVisible && <Login />}
+          {isCartVisible && <Cart />}
           <RecentItems />
         </div>
       </CartContext.Provider>

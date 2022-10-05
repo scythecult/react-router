@@ -3,7 +3,7 @@ import { UserIcon } from "./user-icon";
 
 import styles from "./login-button.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLoginShown } from "../../features/auth/user-auth";
+import { setIsAuthVisible } from "../../features/render/render.slice";
 
 const LoginButton = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const LoginButton = () => {
   return (
     <button
       className={loginButtonClasses}
-      onClick={() => dispatch(setIsLoginShown(true))}>
+      onClick={() => dispatch(setIsAuthVisible(true))}>
       <UserIcon />
     </button>
   );

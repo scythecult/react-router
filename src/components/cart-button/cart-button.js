@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { CartContext } from "../../context/context";
+import { setIsCartVisible } from "../../features/render/render.slice";
 import { getCartQuantity } from "../../utils/utils";
 import styles from "./cart-button.module.css";
 import { CartIcon } from "./cart-icon";
 
 const CartButton = () => {
-  const { cartItems, setIsCartShown } = useContext(CartContext);
+  const dispatch = useDispatch();
+  const { cartItems } = useContext(CartContext);
   const [animationClass, setAnimationClass] = useState("");
   const cartCount = getCartQuantity(cartItems);
 
@@ -24,7 +27,7 @@ const CartButton = () => {
   return (
     <button
       className={`${styles.button} ${animationClass}`}
-      onClick={() => setIsCartShown(true)}>
+      onClick={() => dispatch(setIsCartVisible(true))}>
       <CartIcon />
       Your Cart
       <span className={styles.badge}>{cartCount}</span>
