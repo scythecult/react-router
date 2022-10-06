@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart } from "../../actions/actions";
-import { FIRE_DB_MEALS } from "../../constants/constants";
-import { CartContext, DispatchContext } from "../../context/context";
+import { FIRE_DB_CART_DATA, FIRE_DB_MEALS } from "../../constants/constants";
+import { addItems } from "../../features/cart/cart-slice";
 import { setIsCartVisible } from "../../features/render/render.slice";
 import { useHttp } from "../../hooks/hooks";
 import { CartItem } from "../cart-item/cart-item";
@@ -11,17 +10,28 @@ import { Button } from "../UI/button";
 import styles from "./cart.module.css";
 
 const Cart = React.memo(() => {
-  const dispatch2 = useDispatch();
+  const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const { cartItems } = useContext(CartContext);
-  const [fetchData, { postResponse, isError, isLoading }] = useHttp({
+  const { cartData } = useSelector((state) => state.cart);
+  const [setRecentData, { postResponse, isError, isLoading }] = useHttp({
+    // отправляем в recent, после отправки удаляем данные о корзине из fireDb
     url: FIRE_DB_MEALS,
     method: "POST",
   });
-  const dispatch = useContext(DispatchContext);
-  const hasCartItems = !!cartItems.length;
+  const [getCartData] = useHttp({ url: FIRE_DB_CART_DATA });
+
+  useEffect(() => {
+    // add fetch optimization
+    getCartData().then((response) => {
+      if (response) {
+        dispatch(addItems(response));
+      }
+    });
+  }, []);
+
+  const hasCartItems = !!cartData.length;
   const isSuccess = postResponse?.name;
-  const totalAmount = cartItems
+  const totalAmount = cartData
     .reduce((initial, current) => {
       initial += current.price * current.quantity;
 
@@ -35,7 +45,7 @@ const Cart = React.memo(() => {
     modalContent = (
       <>
         <ul className={styles.cart}>
-          {cartItems.map((item, index) => (
+          {cartData.map((item, index) => (
             <CartItem key={item.id + index} {...item} />
           ))}
         </ul>
@@ -59,27 +69,24 @@ const Cart = React.memo(() => {
     modalContent = <p>Please log in to order ¯\_(ツ)_/¯</p>;
   }
 
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(clearCart());
-    }
-  }, [isSuccess, dispatch]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     dispatch(clearCart());
+  //   }
+  // }, [isSuccess, dispatch]);
 
+  // handler={() => setRecentData(cartData)}
   return (
-    <Modal handler={() => dispatch2(setIsCartVisible(false))}>
+    <Modal handler={() => dispatch(setIsCartVisible(false))}>
       {modalContent}
       <p className={styles.actions}>
         <Button
           config={{ isAlt: true, type: "button" }}
-          handler={() => dispatch2(setIsCartVisible(false))}>
+          handler={() => dispatch(setIsCartVisible(false))}>
           Close
         </Button>
         {hasCartItems && !isError && isLoggedIn && (
-          <Button
-            config={{ type: "button", isDisabled: isLoading }}
-            handler={() => fetchData(cartItems)}>
-            Order
-          </Button>
+          <Button config={{ type: "button", isDisabled: isLoading }}>Order</Button>
         )}
       </p>
     </Modal>

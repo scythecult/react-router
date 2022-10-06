@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
-import { addMealToCart, removeMealFromCart } from "../../actions/actions";
-import { DispatchContext } from "../../context/context";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { decrease, increase } from "../../features/cart/cart-slice";
 import styles from "./cart-item.module.css";
 
 const CartItem = (props) => {
-  const dispatch = useContext(DispatchContext);
+  const dispatch = useDispatch();
   const { id, price, quantity } = props;
 
   return (
@@ -17,8 +17,8 @@ const CartItem = (props) => {
         </div>
       </div>
       <div className={styles.actions}>
-        <button onClick={() => dispatch(removeMealFromCart(id))}>−</button>
-        <button onClick={() => dispatch(addMealToCart({ id, mealCount: 1 }))}>+</button>
+        <button onClick={() => dispatch(decrease({ id }))}>−</button>
+        <button onClick={() => dispatch(increase({ id, quantity: 1 }))}>+</button>
       </div>
     </li>
   );

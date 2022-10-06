@@ -12,8 +12,8 @@ import { Card } from "../UI/card";
 import styles from "./meals.module.css";
 
 const Meals = React.memo(() => {
-  const { value: meals } = useSelector((state) => state.meals);
   const dispatch = useDispatch();
+  const { value: meals } = useSelector((state) => state.meals);
   const [fetchData, { isLoading, isError }] = useHttp({
     url: FIRE_DB_STORED_MEALS,
   });
@@ -44,7 +44,7 @@ const Meals = React.memo(() => {
           {meals?.map((meal) => {
             return (
               <Meal key={meal.id} {...meal}>
-                <Form id={meal.id} />
+                <Form id={meal.id} item={meal} />
               </Meal>
             );
           })}

@@ -1,18 +1,17 @@
-import React, { useContext, useState } from "react";
-import { DispatchContext } from "../../context/context";
+import React, { useState } from "react";
 import styles from "./form.module.css";
 import { Input } from "../UI/input";
-import { addMealToCart } from "../../actions/actions";
+import { useHttp } from "../../hooks/hooks";
+import { FIRE_DB_CART_DATA } from "../../constants/constants";
 
 const Form = (props) => {
   const [mealCount, setMealCount] = useState("1");
-  const dispatch = useContext(DispatchContext);
-  const { id } = props;
+  const [postCartData] = useHttp({ url: FIRE_DB_CART_DATA, method: "POST" });
+  const { id, item } = props;
 
   const onFormSubmit = (evt) => {
     evt.preventDefault();
-
-    dispatch(addMealToCart({ id, mealCount: Number(mealCount) }));
+    postCartData({ ...item, quantity: Number(mealCount) });
   };
 
   return (

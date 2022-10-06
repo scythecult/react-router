@@ -10,6 +10,34 @@ const transformObject = (object) => {
   return Object.values(object);
 };
 
+const transformCartData = (cartData) => {
+  const initial = [...transformObject(cartData)];
+  const reduced = [];
+  const matches = {};
+
+  for (let i = 0; i < initial.length; i++) {
+    const item = initial[i];
+
+    for (let j = i + 1; j < initial.length; j++) {
+      const nextItem = initial[j];
+
+      if (item.id === nextItem.id) {
+        const merged = {
+          ...item,
+          quantity: item.quantity + nextItem.quantity,
+        };
+        matches[item.id] = item.id;
+        initial.splice(j, 1);
+        reduced.push(merged);
+      }
+    }
+  }
+
+  const unique = initial.filter((item) => matches[item.id] !== item.id);
+
+  return [...reduced, ...unique];
+};
+
 const transformData = (data = {}) => {
   const transformed = [];
   const items = transformObject(data);
@@ -26,4 +54,4 @@ const transformData = (data = {}) => {
   return uniqueItems;
 };
 
-export { getCartQuantity, transformData, transformObject };
+export { getCartQuantity, transformData, transformObject, transformCartData };

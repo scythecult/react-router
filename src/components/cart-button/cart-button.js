@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { CartContext } from "../../context/context";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsCartVisible } from "../../features/render/render.slice";
 import { getCartQuantity } from "../../utils/utils";
 import styles from "./cart-button.module.css";
@@ -8,12 +7,12 @@ import { CartIcon } from "./cart-icon";
 
 const CartButton = () => {
   const dispatch = useDispatch();
-  const { cartItems } = useContext(CartContext);
+  const { cartData } = useSelector((state) => state.cart);
   const [animationClass, setAnimationClass] = useState("");
-  const cartCount = getCartQuantity(cartItems);
+  const cartCount = getCartQuantity(cartData);
 
   useEffect(() => {
-    if (cartItems.length) {
+    if (cartData.length) {
       setAnimationClass(styles.bump);
     }
 
@@ -22,7 +21,7 @@ const CartButton = () => {
     }, 300);
 
     return () => clearTimeout(timerId);
-  }, [cartItems]);
+  }, [cartData]);
 
   return (
     <button

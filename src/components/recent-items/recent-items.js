@@ -21,7 +21,7 @@ const RecentItems = React.memo(() => {
 
   const { isLoggedIn } = useSelector((state) => state.auth);
 
-  const { state } = useContext(CartContext);
+  // const { state } = useContext(CartContext);
   const [isExpanded, setIsExpanded] = useState(localStorage.getItem(STORAGE_KEY) || true);
   const [isVisible, setIsVisible] = useState(false);
   const [fetchData] = useHttp({
@@ -54,24 +54,24 @@ const RecentItems = React.memo(() => {
     localStorage.setItem(STORAGE_KEY, isExpanded);
   }, [isExpanded]);
 
-  useEffect(() => {
-    if (state.recentItems.length === 0) {
-      setIsVisible(false);
-    }
-  }, [state.recentItems]);
+  // useEffect(() => {
+  //   if (state.recentItems.length === 0) {
+  //     setIsVisible(false);
+  //   }
+  // }, [state.recentItems]);
 
-  useEffect(() => {
-    fetchData().then((response) => {
-      if (response) {
-        const data = transformData(response);
+  // useEffect(() => {
+  //   fetchData().then((response) => {
+  //     if (response) {
+  //       const data = transformData(response);
 
-        if (!data?.length) return;
+  //       if (!data?.length) return;
 
-        setIsVisible(true);
-        dispatch(addRecentMeals(data));
-      }
-    });
-  }, []);
+  //       setIsVisible(true);
+  //       dispatch(addRecentMeals(data));
+  //     }
+  //   });
+  // }, []);
 
   return (
     <section
@@ -83,7 +83,7 @@ const RecentItems = React.memo(() => {
       </Button>
       <Card>
         <ul className={styles.list}>
-          {state.recentItems.map((meal) => {
+          {/* {state.recentItems.map((meal) => {
             return (
               <Meal key={meal.id} {...meal}>
                 <Button
@@ -93,7 +93,7 @@ const RecentItems = React.memo(() => {
                 </Button>
               </Meal>
             );
-          })}
+          })} */}
         </ul>
         <div className={styles.buttons}>
           <Button
