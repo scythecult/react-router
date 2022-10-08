@@ -1,8 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { FIRE_DB_RECENT_MEALS } from "../../constants/constants";
+import {
+  addRecentProducts,
+  clearRecentProducts,
+  removeRecentProduct,
+} from "../../features/recent/recent-slice";
 import { useHttp } from "../../hooks/hooks";
+import { transformObject } from "../../utils/utils";
+import { Meal } from "../meal/meal";
 import { Button } from "../UI/button";
 import { Card } from "../UI/card";
 
@@ -10,13 +17,12 @@ import styles from "./recent-items.module.css";
 
 const RecentItems = React.memo(() => {
   const STORAGE_KEY = "isExpanded";
-
+  const dispatch = useDispatch();
+  const { recentProducts } = useSelector((state) => state.recent);
   const { isLoggedIn } = useSelector((state) => state.auth);
-
-  // const { state } = useContext(CartContext);
   const [isExpanded, setIsExpanded] = useState(localStorage.getItem(STORAGE_KEY) || true);
   const [isVisible, setIsVisible] = useState(false);
-  const [fetchData] = useHttp({
+  const [getRecentProducts] = useHttp({
     url: FIRE_DB_RECENT_MEALS,
   });
 
@@ -26,11 +32,11 @@ const RecentItems = React.memo(() => {
 
   const onAddToCartClick = () => {
     // dispatch(mergeRecentWithCart());
-    // dispatch(clearRecent());
+    dispatch(clearRecentProducts());
   };
 
   const onRemoveMealClick = (id) => {
-    // dispatch(removeMealFromRecent(id));
+    dispatch(removeRecentProduct(id));
   };
 
   useEffect(() => {
@@ -45,24 +51,23 @@ const RecentItems = React.memo(() => {
     localStorage.setItem(STORAGE_KEY, isExpanded);
   }, [isExpanded]);
 
-  // useEffect(() => {
-  //   if (state.recentItems.length === 0) {
-  //     setIsVisible(false);
-  //   }
-  // }, [state.recentItems]);
+  useEffect(() => {
+    if (recentProducts.length === 0) {
+      setIsVisible(false);
+    }
+  }, [recentProducts]);
 
-  // useEffect(() => {
-  //   fetchData().then((response) => {
-  //     if (response) {
-  //       const data = transformData(response);
+  useEffect(() => {
+    getRecentProducts().then((response) => {
+      if (response) {
+        const transformed = transformObject(response);
+        if (!transformed?.length) return;
 
-  //       if (!data?.length) return;
-
-  //       setIsVisible(true);
-  //       dispatch(addRecentMeals(data));
-  //     }
-  //   });
-  // }, []);
+        setIsVisible(true);
+        dispatch(addRecentProducts(...transformed));
+      }
+    });
+  }, []);
 
   return (
     <section
@@ -74,17 +79,17 @@ const RecentItems = React.memo(() => {
       </Button>
       <Card>
         <ul className={styles.list}>
-          {/* {state.recentItems.map((meal) => {
+          {recentProducts.map((product) => {
             return (
-              <Meal key={meal.id} {...meal}>
+              <Meal key={product.id} {...product}>
                 <Button
-                  handler={() => onRemoveMealClick(meal.id)}
+                  handler={() => onRemoveMealClick(product.id)}
                   config={{ className: styles["recent-items-remove"] }}>
                   &#9587;
                 </Button>
               </Meal>
             );
-          })} */}
+          })}
         </ul>
         <div className={styles.buttons}>
           <Button
