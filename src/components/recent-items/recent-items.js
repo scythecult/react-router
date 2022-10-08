@@ -1,16 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  addRecentMeals,
-  clearRecent,
-  mergeRecentWithCart,
-  removeMealFromRecent,
-} from "../../actions/actions";
+
 import { FIRE_DB_RECENT_MEALS } from "../../constants/constants";
-import { CartContext, DispatchContext } from "../../context/context";
 import { useHttp } from "../../hooks/hooks";
-import { transformData } from "../../utils/utils";
-import { Meal } from "../meal/meal";
 import { Button } from "../UI/button";
 import { Card } from "../UI/card";
 
@@ -27,19 +19,18 @@ const RecentItems = React.memo(() => {
   const [fetchData] = useHttp({
     url: FIRE_DB_RECENT_MEALS,
   });
-  const dispatch = useContext(DispatchContext);
 
   const onToggleExpandClick = () => {
     setIsExpanded((isExpanded) => (isExpanded = !isExpanded));
   };
 
   const onAddToCartClick = () => {
-    dispatch(mergeRecentWithCart());
-    dispatch(clearRecent());
+    // dispatch(mergeRecentWithCart());
+    // dispatch(clearRecent());
   };
 
   const onRemoveMealClick = (id) => {
-    dispatch(removeMealFromRecent(id));
+    // dispatch(removeMealFromRecent(id));
   };
 
   useEffect(() => {

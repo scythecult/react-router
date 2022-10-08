@@ -14,7 +14,6 @@ const Cart = React.memo(() => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { cartProducts } = useSelector((state) => state.products);
   const [setRecentData, { postResponse, isError, isLoading }] = useHttp({
-    // отправляем в recent, после отправки удаляем данные о корзине из fireDb
     url: FIRE_DB_RECENT_MEALS,
     method: "POST",
   });
