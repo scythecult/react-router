@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FIRE_DB_MEALS } from "../../constants/constants";
+import { FIRE_DB_RECENT_MEALS } from "../../constants/constants";
+import { clearCart } from "../../features/products/product-slice";
 import { setIsCartVisible } from "../../features/render/render.slice";
 import { useHttp } from "../../hooks/hooks";
 import { CartItem } from "../cart-item/cart-item";
@@ -11,16 +12,16 @@ import styles from "./cart.module.css";
 const Cart = React.memo(() => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const { cartData } = useSelector((state) => state.cart);
+  const { cartProducts } = useSelector((state) => state.products);
   const [setRecentData, { postResponse, isError, isLoading }] = useHttp({
     // отправляем в recent, после отправки удаляем данные о корзине из fireDb
-    url: FIRE_DB_MEALS,
+    url: FIRE_DB_RECENT_MEALS,
     method: "POST",
   });
 
-  const hasCartItems = !!cartData.length;
+  const hasCartItems = !!cartProducts.length;
   const isSuccess = postResponse?.name;
-  const totalAmount = cartData
+  const totalAmount = cartProducts
     .reduce((initial, current) => {
       initial += current.price * current.quantity;
 
@@ -34,7 +35,7 @@ const Cart = React.memo(() => {
     modalContent = (
       <>
         <ul className={styles.cart}>
-          {cartData.map((item, index) => (
+          {cartProducts.map((item, index) => (
             <CartItem key={item.id + index} {...item} />
           ))}
         </ul>
@@ -58,13 +59,12 @@ const Cart = React.memo(() => {
     modalContent = <p>Please log in to order ¯\_(ツ)_/¯</p>;
   }
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     dispatch(clearCart());
-  //   }
-  // }, [isSuccess, dispatch]);
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clearCart());
+    }
+  }, [isSuccess, dispatch]);
 
-  // handler={() => setRecentData(cartData)}
   return (
     <Modal handler={() => dispatch(setIsCartVisible(false))}>
       {modalContent}
@@ -75,7 +75,11 @@ const Cart = React.memo(() => {
           Close
         </Button>
         {hasCartItems && !isError && isLoggedIn && (
-          <Button config={{ type: "button", isDisabled: isLoading }}>Order</Button>
+          <Button
+            config={{ type: "button", isDisabled: isLoading }}
+            handler={() => setRecentData(cartProducts)}>
+            Order
+          </Button>
         )}
       </p>
     </Modal>

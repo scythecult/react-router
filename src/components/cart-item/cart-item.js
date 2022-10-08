@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { decrease, increase } from "../../features/cart/cart-slice";
+import { addProduct, removeProduct } from "../../features/products/product-slice";
 import styles from "./cart-item.module.css";
 
 const CartItem = (props) => {
@@ -17,8 +17,8 @@ const CartItem = (props) => {
         </div>
       </div>
       <div className={styles.actions}>
-        <button onClick={() => dispatch(decrease({ id }))}>−</button>
-        <button onClick={() => dispatch(increase({ id, quantity: 1 }))}>+</button>
+        <button onClick={() => dispatch(removeProduct({ id }))}>−</button>
+        <button onClick={() => dispatch(addProduct({ id, quantity: 1 }))}>+</button>
       </div>
     </li>
   );

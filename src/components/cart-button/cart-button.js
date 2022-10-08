@@ -7,12 +7,12 @@ import { CartIcon } from "./cart-icon";
 
 const CartButton = () => {
   const dispatch = useDispatch();
-  const { cartData } = useSelector((state) => state.cart);
+  const { cartProducts } = useSelector((state) => state.products);
   const [animationClass, setAnimationClass] = useState("");
-  const cartCount = getCartQuantity(cartData);
+  const cartCount = getCartQuantity(cartProducts);
 
   useEffect(() => {
-    if (cartData.length) {
+    if (cartProducts.length) {
       setAnimationClass(styles.bump);
     }
 
@@ -21,7 +21,7 @@ const CartButton = () => {
     }, 300);
 
     return () => clearTimeout(timerId);
-  }, [cartData]);
+  }, [cartProducts]);
 
   return (
     <button

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FIRE_DB_STORED_MEALS } from "../../constants/constants";
-import { fetchMeals } from "../../features/fetch-meals/fetch-meals-slice";
+import { getProducts } from "../../features/products/product-slice";
 import { useHttp } from "../../hooks/hooks";
 import { transformObject } from "../../utils/utils";
 import { ErrorIndicatior } from "../error-indicator/error-indicator";
@@ -13,18 +13,18 @@ import styles from "./meals.module.css";
 
 const Meals = React.memo(() => {
   const dispatch = useDispatch();
-  const { value: meals } = useSelector((state) => state.meals);
-  const [fetchData, { isLoading, isError }] = useHttp({
+  const { products: meals } = useSelector((state) => state.products);
+  const [getMeals, { isLoading, isError }] = useHttp({
     url: FIRE_DB_STORED_MEALS,
   });
 
   useEffect(() => {
-    fetchData().then((response) => {
+    getMeals().then((response) => {
       if (response) {
         const data = transformObject(response);
 
         if (!data.length) return;
-        dispatch(fetchMeals(data));
+        dispatch(getProducts(data));
       }
     });
   }, []);

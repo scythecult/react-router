@@ -6,7 +6,7 @@ import {
   mergeRecentWithCart,
   removeMealFromRecent,
 } from "../../actions/actions";
-import { FIRE_DB_MEALS } from "../../constants/constants";
+import { FIRE_DB_RECENT_MEALS } from "../../constants/constants";
 import { CartContext, DispatchContext } from "../../context/context";
 import { useHttp } from "../../hooks/hooks";
 import { transformData } from "../../utils/utils";
@@ -25,7 +25,7 @@ const RecentItems = React.memo(() => {
   const [isExpanded, setIsExpanded] = useState(localStorage.getItem(STORAGE_KEY) || true);
   const [isVisible, setIsVisible] = useState(false);
   const [fetchData] = useHttp({
-    url: FIRE_DB_MEALS,
+    url: FIRE_DB_RECENT_MEALS,
   });
   const dispatch = useContext(DispatchContext);
 
