@@ -11,31 +11,31 @@ const transformObject = (object) => {
 };
 
 const transformCartData = (cartData) => {
-  const initial = [...transformObject(cartData)];
-  const reduced = [];
-  const matches = {};
+  const transformed = transformObject(cartData);
+  // находим уникальные id
+  const uniqueKeys = transformed.reduce(
+    (initial, current) => ({ ...initial, [current.id]: "" }),
+    {}
+  );
 
-  for (let i = 0; i < initial.length; i++) {
-    const item = initial[i];
-
-    for (let j = i + 1; j < initial.length; j++) {
-      const nextItem = initial[j];
-
-      if (item.id === nextItem.id) {
-        const merged = {
-          ...item,
-          quantity: item.quantity + nextItem.quantity,
-        };
-        matches[item.id] = item.id;
-        initial.splice(j, 1);
-        reduced.push(merged);
-      }
+  // добавляем к ним соотв. элементы
+  for (let item of transformed) {
+    if (item.id in uniqueKeys) {
+      uniqueKeys[item.id] = transformed.filter((innerItem) => innerItem.id === item.id);
     }
   }
 
-  const unique = initial.filter((item) => matches[item.id] !== item.id);
+  // вычисляем количество уникальных элементов
+  const calculated = Object.values(uniqueKeys).reduce((calculatedAcc, value) => {
+    const quantity = value.reduce((initial, current) => (initial += current.quantity), 0);
+    const props = value.reduce((initial, current) => ({ ...initial, ...current }), {});
 
-  return [...reduced, ...unique];
+    calculatedAcc.push({ ...props, quantity });
+
+    return calculatedAcc;
+  }, []);
+
+  return calculated;
 };
 
 const transformData = (data = {}) => {

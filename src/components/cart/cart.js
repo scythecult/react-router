@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FIRE_DB_CART_DATA, FIRE_DB_MEALS } from "../../constants/constants";
-import { addItems } from "../../features/cart/cart-slice";
+import { FIRE_DB_MEALS } from "../../constants/constants";
 import { setIsCartVisible } from "../../features/render/render.slice";
 import { useHttp } from "../../hooks/hooks";
 import { CartItem } from "../cart-item/cart-item";
@@ -18,16 +17,6 @@ const Cart = React.memo(() => {
     url: FIRE_DB_MEALS,
     method: "POST",
   });
-  const [getCartData] = useHttp({ url: FIRE_DB_CART_DATA });
-
-  useEffect(() => {
-    // add fetch optimization
-    getCartData().then((response) => {
-      if (response) {
-        dispatch(addItems(response));
-      }
-    });
-  }, []);
 
   const hasCartItems = !!cartData.length;
   const isSuccess = postResponse?.name;
