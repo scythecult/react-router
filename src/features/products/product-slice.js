@@ -54,13 +54,24 @@ const productSlice = createSlice({
         state.cartProducts.splice(targetProductIndex, 1);
       }
     },
+    mergeProducts(state, action) {
+      state.cartProducts.push(...action.payload);
+    },
     clearCart(state) {
       state.cartProducts = [];
     },
   },
 });
 
-const { getProducts, addProduct, removeProduct, clearCart } = productSlice.actions;
+const { getProducts, addProduct, removeProduct, clearCart, mergeProducts } =
+  productSlice.actions;
 const productReducer = productSlice.reducer;
 
-export { getProducts, addProduct, removeProduct, clearCart, productReducer };
+export {
+  getProducts,
+  addProduct,
+  removeProduct,
+  clearCart,
+  mergeProducts,
+  productReducer,
+};

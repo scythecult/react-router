@@ -12,7 +12,7 @@ const useHttp = ({ url, method = "GET" }) => {
     try {
       const response = await fetch(
         url,
-        method === "POST"
+        method === "POST" || "PUT"
           ? {
               method,
               body: JSON.stringify(items),
@@ -26,7 +26,7 @@ const useHttp = ({ url, method = "GET" }) => {
       if (response.ok) {
         const data = await response.json();
 
-        if (method === "POST") {
+        if (method === "POST" || "PUT") {
           setPostResponse(data);
         }
 

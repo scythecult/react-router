@@ -15,11 +15,11 @@ const Cart = React.memo(() => {
   const { cartProducts } = useSelector((state) => state.products);
   const [setRecentData, { postResponse, isError, isLoading }] = useHttp({
     url: FIRE_DB_RECENT_MEALS,
-    method: "POST",
+    method: "PUT",
   });
 
   const hasCartItems = !!cartProducts.length;
-  const isSuccess = postResponse?.name;
+  const isSuccess = postResponse?.length;
   const totalAmount = cartProducts
     .reduce((initial, current) => {
       initial += current.price * current.quantity;

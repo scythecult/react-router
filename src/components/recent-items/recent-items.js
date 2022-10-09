@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FIRE_DB_RECENT_MEALS } from "../../constants/constants";
+import { mergeProducts } from "../../features/products/product-slice";
 import {
   addRecentProducts,
   clearRecentProducts,
   removeRecentProduct,
 } from "../../features/recent/recent-slice";
 import { useHttp } from "../../hooks/hooks";
-import { transformObject } from "../../utils/utils";
 import { Meal } from "../meal/meal";
 import { Button } from "../UI/button";
 import { Card } from "../UI/card";
@@ -22,6 +22,7 @@ const RecentItems = React.memo(() => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const [isExpanded, setIsExpanded] = useState(localStorage.getItem(STORAGE_KEY) || true);
   const [isVisible, setIsVisible] = useState(false);
+  const [updateRecentProducts] = useHttp({ url: FIRE_DB_RECENT_MEALS, method: "PUT" });
   const [getRecentProducts] = useHttp({
     url: FIRE_DB_RECENT_MEALS,
   });
@@ -31,7 +32,7 @@ const RecentItems = React.memo(() => {
   };
 
   const onAddToCartClick = () => {
-    // dispatch(mergeRecentWithCart());
+    dispatch(mergeProducts(recentProducts));
     dispatch(clearRecentProducts());
   };
 
@@ -55,16 +56,19 @@ const RecentItems = React.memo(() => {
     if (recentProducts.length === 0) {
       setIsVisible(false);
     }
+
+    if (recentProducts.length) {
+      updateRecentProducts(recentProducts);
+    }
   }, [recentProducts]);
 
   useEffect(() => {
     getRecentProducts().then((response) => {
       if (response) {
-        const transformed = transformObject(response);
-        if (!transformed?.length) return;
+        if (!response?.length) return;
 
         setIsVisible(true);
-        dispatch(addRecentProducts(...transformed));
+        dispatch(addRecentProducts(response));
       }
     });
   }, []);
