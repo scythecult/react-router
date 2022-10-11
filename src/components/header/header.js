@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import classes from "./MainNavigation.module.css";
 
@@ -12,10 +12,26 @@ const Header = () => {
       <nav className={classes.nav}>
         <ul>
           <li>
-            <Link to="/all-quotes">All Quotes</Link>
+            <NavLink
+              style={({ isActive }) => {
+                return {
+                  textDecoration: isActive ? "underline" : "none",
+                };
+              }}
+              to="/all-quotes">
+              All Quotes
+            </NavLink>
           </li>
           <li>
-            <Link to="/add-quote">Add a Quote</Link>
+            <NavLink
+              style={({ isActive }) => {
+                return {
+                  textDecoration: isActive ? "underline" : "none",
+                };
+              }}
+              to="/add-quote">
+              Add a Quote
+            </NavLink>
           </li>
         </ul>
       </nav>
