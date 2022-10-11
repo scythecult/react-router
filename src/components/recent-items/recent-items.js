@@ -8,7 +8,7 @@ import {
   clearRecentProducts,
   removeRecentProduct,
 } from "../../features/recent/recent-slice";
-import { useHttp } from "../../hooks/hooks";
+import { useHttp, useStorage } from "../../hooks/hooks";
 import { Meal } from "../meal/meal";
 import { Button } from "../UI/button";
 import { Card } from "../UI/card";
@@ -20,7 +20,7 @@ const RecentItems = React.memo(() => {
   const dispatch = useDispatch();
   const { recentProducts } = useSelector((state) => state.recent);
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const [isExpanded, setIsExpanded] = useState(localStorage.getItem(STORAGE_KEY) || true);
+  const [isExpanded, setIsExpanded] = useStorage(STORAGE_KEY);
   const [isVisible, setIsVisible] = useState(false);
   const [updateRecentProducts] = useHttp({ url: FIRE_DB_RECENT_MEALS, method: "PUT" });
   const [getRecentProducts] = useHttp({
@@ -36,31 +36,9 @@ const RecentItems = React.memo(() => {
     dispatch(clearRecentProducts());
   };
 
-  const onRemoveMealClick = (id) => {
+  const onRemoveProductClick = (id) => {
     dispatch(removeRecentProduct(id));
   };
-
-  useEffect(() => {
-    const storedData = localStorage.getItem(STORAGE_KEY);
-
-    if (storedData) {
-      setIsExpanded(JSON.parse(storedData));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, isExpanded);
-  }, [isExpanded]);
-
-  useEffect(() => {
-    if (recentProducts.length === 0) {
-      setIsVisible(false);
-    }
-
-    if (recentProducts.length) {
-      updateRecentProducts(recentProducts);
-    }
-  }, [recentProducts]);
 
   useEffect(() => {
     getRecentProducts().then((response) => {
@@ -72,6 +50,14 @@ const RecentItems = React.memo(() => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (recentProducts.length === 0) {
+      setIsVisible(false);
+    }
+
+    updateRecentProducts(recentProducts);
+  }, [recentProducts]);
 
   return (
     <section
@@ -87,7 +73,7 @@ const RecentItems = React.memo(() => {
             return (
               <Meal key={product.id} {...product}>
                 <Button
-                  handler={() => onRemoveMealClick(product.id)}
+                  handler={() => onRemoveProductClick({ id: product.id })}
                   config={{ className: styles["recent-items-remove"] }}>
                   &#9587;
                 </Button>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useHttp = ({ url, method = "GET" }) => {
   const [postResponse, setPostResponse] = useState(null);
@@ -52,4 +52,22 @@ const useValidation = (isValid) => {
   return [inputValue, hasError, valueIsValid, setInputValue, setIsTouched];
 };
 
-export { useHttp, useValidation };
+const useStorage = (key) => {
+  const [isExpanded, setIsExpanded] = useState(localStorage.getItem(key) || true);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem(key);
+
+    if (storedData) {
+      setIsExpanded(JSON.parse(storedData));
+    }
+  }, [key]);
+
+  useEffect(() => {
+    localStorage.setItem(key, isExpanded);
+  }, [isExpanded, key]);
+
+  return [isExpanded, setIsExpanded];
+};
+
+export { useHttp, useValidation, useStorage };
