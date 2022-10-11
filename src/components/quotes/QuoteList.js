@@ -1,24 +1,17 @@
 import { Fragment } from "react";
+import { useSelector } from "react-redux";
 
 import { QuoteItem } from "./QuoteItem";
 import classes from "./QuoteList.module.css";
 
-const QUOTES_MOCK = [
-  { id: 1, author: "Check", text: "Privet" },
-  { id: 2, author: "Zalupa", text: "Zdarove brat" },
-];
-
 const QuoteList = (props) => {
+  const { quotes } = useSelector((state) => state.quotes);
+
   return (
     <Fragment>
       <ul className={classes.list}>
-        {QUOTES_MOCK.map((quote) => (
-          <QuoteItem
-            key={quote.id}
-            id={quote.id}
-            author={quote.author}
-            text={quote.text}
-          />
+        {quotes.map((quote) => (
+          <QuoteItem key={quote.id} {...quote} />
         ))}
       </ul>
     </Fragment>

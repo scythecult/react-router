@@ -1,10 +1,15 @@
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addQuote } from "../../features/quotes-slice";
 import { Card } from "../UI/Card";
 
 import { LoadingSpinner } from "../UI/LoadingSpinner";
 import classes from "./QuoteForm.module.css";
 
 const QuoteForm = (props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const authorInputRef = useRef();
   const textInputRef = useRef();
 
@@ -15,8 +20,8 @@ const QuoteForm = (props) => {
     const enteredText = textInputRef.current.value;
 
     // optional: Could validate here
-    console.log("submitted");
-    // props.onAddQuote({ author: enteredAuthor, text: enteredText });
+    dispatch(addQuote({ author: enteredAuthor, text: enteredText }));
+    navigate("/all-quotes");
   }
 
   return (

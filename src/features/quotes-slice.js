@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createQuote } from "../utils/utils";
+
+const QUOTES_MOCK = [
+  { id: 1, author: "Check", text: "Privet" },
+  { id: 2, author: "Zalupa", text: "Zdarove brat" },
+];
 
 const initialState = {
-  quotes: [],
+  quotes: QUOTES_MOCK,
 };
 
 const quotesSlice = createSlice({
@@ -9,7 +15,7 @@ const quotesSlice = createSlice({
   initialState,
   reducers: {
     addQuote(state, action) {
-      console.log("done");
+      state.quotes.push(createQuote(action.payload));
     },
   },
 });
