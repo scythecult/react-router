@@ -35,8 +35,16 @@
   color: #88dfdf;
 }
 
-.nav a:hover,
-.nav a:active,
 .nav a.active {
+  color: #e6fcfc;
+  text-decoration: underline;
+}
+
+.nav a:hover.active {
+  color: #88dfdf;
+}
+
+.nav a:hover,
+.nav a:active {
   color: #e6fcfc;
 }

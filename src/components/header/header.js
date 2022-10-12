@@ -13,10 +13,8 @@ const Header = () => {
         <ul>
           <li>
             <NavLink
-              style={({ isActive }) => {
-                return {
-                  textDecoration: isActive ? "underline" : "none",
-                };
+              className={({ isActive }) => {
+                return isActive ? `${classes.active}` : "";
               }}
               to="/all-quotes">
               All Quotes
@@ -24,10 +22,8 @@ const Header = () => {
           </li>
           <li>
             <NavLink
-              style={({ isActive }) => {
-                return {
-                  textDecoration: isActive ? "underline" : "none",
-                };
+              className={({ isActive }) => {
+                return isActive ? `${classes.active}` : "";
               }}
               to="/add-quote">
               Add a Quote
