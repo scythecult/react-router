@@ -1,17 +1,20 @@
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { addQuote } from "../../features/quotes-slice";
+import { useLoader } from "../hooks/hooks";
 import { Card } from "../UI/Card";
 
 import { LoadingSpinner } from "../UI/LoadingSpinner";
 import classes from "./QuoteForm.module.css";
 
-const QuoteForm = (props) => {
+const QuoteForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const authorInputRef = useRef();
   const textInputRef = useRef();
+  const [isLoading, setIsLoading] = useLoader({
+    closeAfter: 1.5,
+    redirectTo: "/all-quotes",
+  });
 
   function submitFormHandler(event) {
     event.preventDefault();
@@ -21,13 +24,13 @@ const QuoteForm = (props) => {
 
     // optional: Could validate here
     dispatch(addQuote({ author: enteredAuthor, text: enteredText }));
-    navigate("/all-quotes");
+    setIsLoading(true);
   }
 
   return (
     <Card>
       <form className={classes.form} onSubmit={submitFormHandler}>
-        {props.isLoading && <div className={classes.loading}>{<LoadingSpinner />}</div>}
+        {isLoading && <div className={classes.loading}>{<LoadingSpinner />}</div>}
 
         <div className={classes.control}>
           <label htmlFor="author">Author</label>
