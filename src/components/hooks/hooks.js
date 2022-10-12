@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const useLoader = ({ closeAfter = 1, redirectTo = "" }) => {
+const useLoader = ({ hideAfter = 1, redirectTo = "" }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -15,13 +15,23 @@ const useLoader = ({ closeAfter = 1, redirectTo = "" }) => {
         if (redirectTo) {
           navigate(redirectTo);
         }
-      }, closeAfter * 1000);
+      }, hideAfter * 1000);
     }
 
     return () => clearTimeout(timerId);
-  }, [closeAfter, isLoading, redirectTo, navigate]);
+  }, [hideAfter, isLoading, redirectTo, navigate]);
 
   return [isLoading, setIsLoading];
 };
 
-export { useLoader };
+const useValidation = (isValid) => {
+  const [inputValue, setInputValue] = useState("");
+  const [isTouched, setIsTouched] = useState(false);
+
+  const valueIsValid = isValid(inputValue);
+  const hasError = !valueIsValid && isTouched;
+
+  return [inputValue, hasError, valueIsValid, setInputValue, setIsTouched];
+};
+
+export { useLoader, useValidation };
