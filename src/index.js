@@ -7,7 +7,7 @@ import App from "./App";
 import { Home } from "./components/pages/Home";
 import { ErrorPage } from "./components/pages/ErrorPage";
 import { QuoteForm } from "./components/quotes/QuoteForm";
-import { QuoteList } from "./components/quotes/QuoteList";
+import { Quotes } from "./components/quotes/QuoteList";
 import { store } from "./store/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -19,7 +19,7 @@ root.render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
-            <Route path="all-quotes" element={<QuoteList />} />
+            <Route path="all-quotes/*" element={<Quotes />} />
             <Route path="add-quote" element={<QuoteForm />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>
