@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.comments h2 {
+  margin-bottom: 1.25rem;
+}
+
 .comments > button {
+  margin-bottom: 2.5rem;
   font-size: 1.25rem;
 }

@@ -5,4 +5,8 @@ const createQuote = (payload) => {
   };
 };
 
-export { createQuote };
+const findItem = (items = [], author = "") => {
+  return items.find((item) => item.author.toLowerCase() === author.toLowerCase());
+};
+
+export { createQuote, findItem };
