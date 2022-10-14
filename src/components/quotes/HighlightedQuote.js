@@ -7,7 +7,7 @@ import classes from "./HighlightedQuote.module.css";
 const HighlightedQuote = () => {
   const { quotes } = useSelector((state) => state.quotes);
   const { quoteAuthor } = useParams();
-  const { author, text } = findItem(quotes, quoteAuthor);
+  const { author, text, comments } = findItem(quotes, quoteAuthor);
 
   return (
     <>
@@ -16,7 +16,7 @@ const HighlightedQuote = () => {
         <figcaption>{author}</figcaption>
       </figure>
 
-      <Comments author={author} />
+      <Comments author={author} comments={comments} />
     </>
   );
 };

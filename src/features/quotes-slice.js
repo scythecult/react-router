@@ -17,10 +17,17 @@ const quotesSlice = createSlice({
     addQuote(state, action) {
       state.quotes.push(createQuote(action.payload));
     },
+    addComment(state, action) {
+      const targetQuote = state.quotes.find(
+        (quote) => quote.author.toLowerCase() === action.payload.author.toLowerCase()
+      );
+
+      targetQuote.comments.push(action.payload.comment);
+    },
   },
 });
 
-const { addQuote } = quotesSlice.actions;
+const { addQuote, addComment } = quotesSlice.actions;
 const quotesReducer = quotesSlice.reducer;
 
-export { quotesReducer, addQuote };
+export { quotesReducer, addQuote, addComment };

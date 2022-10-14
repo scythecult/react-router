@@ -1,15 +1,12 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { findItem } from "../../utils/utils";
 
 import classes from "./Comments.module.css";
 import CommentsList from "./CommentsList";
 import NewCommentForm from "./NewCommentForm";
 
 const Comments = (props) => {
-  const { quotes } = useSelector((state) => state.quotes);
+  const { author, comments } = props;
   const [isAddingComment, setIsAddingComment] = useState(false);
-  const { comments = [] } = findItem(quotes, props.author);
 
   const startAddCommentHandler = () => {
     setIsAddingComment(true);
@@ -29,7 +26,7 @@ const Comments = (props) => {
           Add a Comment
         </button>
       )}
-      {isAddingComment && <NewCommentForm />}
+      {isAddingComment && <NewCommentForm author={author} />}
       {commentsContent}
     </section>
   );
