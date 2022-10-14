@@ -5,7 +5,7 @@ import CommentsList from "./CommentsList";
 import NewCommentForm from "./NewCommentForm";
 
 const Comments = (props) => {
-  const { author, comments } = props;
+  const { author, comments = [] } = props;
   const [isAddingComment, setIsAddingComment] = useState(false);
 
   const startAddCommentHandler = () => {

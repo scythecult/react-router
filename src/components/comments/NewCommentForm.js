@@ -16,7 +16,7 @@ const NewCommentForm = (props) => {
   const { author } = props;
 
   const commentChangeHandler = (evt) => {
-    setComment(evt.target.value.trim());
+    setComment(evt.target.value);
   };
 
   const commentBlurHandler = () => {

@@ -28,11 +28,11 @@ const QuoteForm = () => {
   });
 
   const authorInputHandler = (evt) => {
-    setAuthorValue(evt.target.value.trim());
+    setAuthorValue(evt.target.value);
   };
 
   const textInputHandler = (evt) => {
-    setTextValue(evt.target.value.trim());
+    setTextValue(evt.target.value);
   };
 
   const authorBlurHandler = () => {
@@ -49,7 +49,7 @@ const QuoteForm = () => {
     if (authorValueIsValid && textValueIsValid) {
       setIsLoading(true);
     }
-    dispatch(addQuote({ author: authorValue, text: textValue }));
+    dispatch(addQuote({ author: authorValue.trim(), text: textValue.trim() }));
     setIsAuthorTouched(false);
     setIsTextTouched(false);
   }

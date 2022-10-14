@@ -1,7 +1,8 @@
 const createQuote = (payload) => {
   return {
     ...payload,
-    id: `${payload.authtor}${Date.now()}`,
+    id: `${payload.author}${Date.now()}`,
+    comments: [],
   };
 };
 
