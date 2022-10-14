@@ -4,6 +4,10 @@
   text-align: center;
 }
 
+.form.error textarea {
+  border-color: tomato;
+}
+
 .loading {
   position: absolute;
   width: 100%;
@@ -15,7 +19,9 @@
 }
 
 .control {
+  position: relative;
   margin-bottom: 0.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .control label {

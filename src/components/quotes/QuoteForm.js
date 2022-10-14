@@ -4,6 +4,7 @@ import { useLoader, useValidation } from "../hooks/hooks";
 import { Card } from "../UI/Card";
 
 import { LoadingSpinner } from "../UI/LoadingSpinner";
+import { ValidationMessage } from "../UI/ValidationMessage";
 import classes from "./QuoteForm.module.css";
 
 const MIN_VALUE_LENGTH = 2;
@@ -52,21 +53,14 @@ const QuoteForm = () => {
     setIsAuthorTouched(false);
     setIsTextTouched(false);
   }
-  const authorRemainingChars = MIN_VALUE_LENGTH - authorValue.length;
+
   const authorClasses = hasAuthorError
     ? `${classes.control} ${classes.error}`
     : classes.control;
-  const authorMessage = authorRemainingChars
-    ? `${authorRemainingChars} more chars to type`
-    : "ok!";
 
-  const textRemainingChars = MIN_VALUE_LENGTH - textValue.length;
   const textClasses = hasTextError
     ? `${classes.control} ${classes.error}`
     : classes.control;
-  const textMessage = textRemainingChars
-    ? `${textRemainingChars} more chars to type`
-    : "ok!";
 
   return (
     <Card>
@@ -82,7 +76,9 @@ const QuoteForm = () => {
             onBlur={authorBlurHandler}
             onChange={authorInputHandler}
           />
-          <p className={classes.info}>{authorMessage}</p>
+          {hasAuthorError && (
+            <ValidationMessage minValue={MIN_VALUE_LENGTH} value={authorValue.length} />
+          )}
         </div>
         <div className={textClasses}>
           <label htmlFor="text">Text</label>
@@ -92,7 +88,9 @@ const QuoteForm = () => {
             value={textValue}
             onBlur={textBlurHandler}
             onChange={textInputHandler}></textarea>
-          <p className={classes.info}>{textMessage}</p>
+          {hasTextError && (
+            <ValidationMessage minValue={MIN_VALUE_LENGTH} value={textValue.length} />
+          )}
         </div>
         <div className={classes.actions}>
           <button className="btn">Add Quote</button>
