@@ -15,7 +15,6 @@ const HighlightedQuote = () => {
         <p>{text}</p>
         <figcaption>{author}</figcaption>
       </figure>
-
       <Comments author={author} comments={comments} />
     </>
   );

@@ -15,7 +15,7 @@ const Comments = (props) => {
   const commentsContent = comments.length ? (
     <CommentsList comments={comments} />
   ) : (
-    <p>Comments...</p>
+    <p>No comments were added yet!</p>
   );
 
   return (
