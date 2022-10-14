@@ -24,10 +24,16 @@ const quotesSlice = createSlice({
 
       targetQuote.comments.push(action.payload.comment);
     },
+    sortAscending(state) {
+      state.quotes.sort((a, b) => b.author.localeCompare(a.author));
+    },
+    sortDescending(state) {
+      state.quotes.sort((a, b) => a.author.localeCompare(b.author));
+    },
   },
 });
 
-const { addQuote, addComment } = quotesSlice.actions;
+const { addQuote, addComment, sortAscending, sortDescending } = quotesSlice.actions;
 const quotesReducer = quotesSlice.reducer;
 
-export { quotesReducer, addQuote, addComment };
+export { quotesReducer, addQuote, addComment, sortAscending, sortDescending };
