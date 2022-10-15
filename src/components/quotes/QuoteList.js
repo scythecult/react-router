@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 import { HighlightedQuote } from "./HighlightedQuote";
 
 import { QuoteItem } from "./QuoteItem";
@@ -8,7 +8,7 @@ import classes from "./QuoteList.module.css";
 import { sortAscending, sortDescending } from "../../features/quotes-slice";
 import { useState } from "react";
 
-const QuoteList = () => {
+export const QuoteList = () => {
   const dispatch = useDispatch();
   const { quotes } = useSelector((state) => state.quotes);
   const [isAscending, setIsAcending] = useState(true);
@@ -37,16 +37,18 @@ const QuoteList = () => {
           <QuoteItem key={quote.id} {...quote} />
         ))}
       </ul>
+      <Outlet />
     </>
   );
 };
 
 const Quotes = () => {
   return (
-    <Routes>
-      <Route index element={<QuoteList />} />
-      <Route path=":quoteAuthor" element={<HighlightedQuote />} />
-    </Routes>
+    <Outlet />
+    // <Routes>
+    //   <Route index element={<QuoteList />} />
+    //   <Route path=":quoteAuthor" element={<HighlightedQuote />} />
+    // </Routes>
   );
 };
 
