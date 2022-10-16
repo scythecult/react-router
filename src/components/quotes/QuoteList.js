@@ -4,14 +4,21 @@ import { Outlet } from "react-router-dom";
 import { QuoteItem } from "./QuoteItem";
 import { Sorting } from "./Sorting";
 import classes from "./QuoteList.module.css";
-import { sortAscending, sortDescending } from "../../features/quotes-slice";
-import { useState } from "react";
+import { addQuotes, sortAscending, sortDescending } from "../../features/quotes-slice";
+import { useEffect, useState } from "react";
 import NoQuotesFound from "./NoQuotesFound";
+import { useHttp } from "../hooks/hooks";
+import { FIRE_DB_QUOTES } from "../../constants/fire-db";
+import { transformResponse } from "../../utils/utils";
+import { LoadingSpinner } from "../UI/LoadingSpinner";
 
 export const QuoteList = () => {
   const dispatch = useDispatch();
   const { quotes } = useSelector((state) => state.quotes);
-  const [isAscending, setIsAcending] = useState(true);
+  const [isAscending, setIsAscending] = useState(true);
+  const [getQuotes, { isLoading }] = useHttp({
+    url: FIRE_DB_QUOTES,
+  });
 
   const sortingHandler = () => {
     if (isAscending) {
@@ -20,8 +27,21 @@ export const QuoteList = () => {
       dispatch(sortDescending());
     }
 
-    setIsAcending((isAscending) => (isAscending = !isAscending));
+    setIsAscending((isAscending) => (isAscending = !isAscending));
   };
+
+  useEffect(() => {
+    getQuotes().then((response) => {
+      if (response) {
+        const quotes = transformResponse(response);
+        dispatch(addQuotes(quotes));
+      }
+    });
+  }, []);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   const sorting = isAscending ? (
     <Sorting handler={sortingHandler} text={"Sort Ascending"} />
@@ -42,17 +62,11 @@ export const QuoteList = () => {
     <NoQuotesFound />
   );
 
-  return <>{quotesContent}</>;
+  return quotesContent;
 };
 
 const Quotes = () => {
-  return (
-    <Outlet />
-    // <Routes>
-    //   <Route index element={<QuoteList />} />
-    //   <Route path=":quoteAuthor" element={<HighlightedQuote />} />
-    // </Routes>
-  );
+  return <Outlet />;
 };
 
 export { Quotes };

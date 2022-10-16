@@ -1,6 +1,6 @@
-import { useDispatch } from "react-redux";
-import { addQuote } from "../../features/quotes-slice";
-import { useLoader, useValidation } from "../hooks/hooks";
+import { useNavigate } from "react-router-dom";
+import { FIRE_DB_QUOTES } from "../../constants/fire-db";
+import { useHttp, useValidation } from "../hooks/hooks";
 import { Card } from "../UI/Card";
 
 import { LoadingSpinner } from "../UI/LoadingSpinner";
@@ -12,7 +12,11 @@ const MIN_VALUE_LENGTH = 2;
 const isTooShort = (value) => value.length >= MIN_VALUE_LENGTH;
 
 const QuoteForm = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [postQuote, { isLoading }] = useHttp({
+    url: FIRE_DB_QUOTES,
+    method: "POST",
+  });
   const [
     authorValue,
     hasAuthorError,
@@ -22,10 +26,6 @@ const QuoteForm = () => {
   ] = useValidation(isTooShort);
   const [textValue, hasTextError, textValueIsValid, setTextValue, setIsTextTouched] =
     useValidation(isTooShort);
-  const [isLoading, setIsLoading] = useLoader({
-    hideAfter: 1.5,
-    redirectTo: "/all-quotes",
-  });
 
   const authorInputHandler = (evt) => {
     setAuthorValue(evt.target.value);
@@ -46,10 +46,10 @@ const QuoteForm = () => {
   function submitFormHandler(event) {
     event.preventDefault();
 
-    if (authorValueIsValid && textValueIsValid) {
-      setIsLoading(true);
-    }
-    dispatch(addQuote({ author: authorValue.trim(), text: textValue.trim() }));
+    if (!authorValueIsValid && !textValueIsValid) return;
+    const newQuote = { author: authorValue.trim(), text: textValue.trim() };
+
+    postQuote(newQuote).then(() => navigate("/all-quotes"));
     setIsAuthorTouched(false);
     setIsTextTouched(false);
   }

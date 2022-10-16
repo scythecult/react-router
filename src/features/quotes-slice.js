@@ -1,19 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createQuote } from "../utils/utils";
 
-const QUOTES_MOCK = [
-  { id: 1, author: "Check", text: "Privet", comments: ["normalno"] },
-  { id: 2, author: "Zalupa", text: "Zdarove brat", comments: [] },
-];
-
 const initialState = {
-  quotes: QUOTES_MOCK,
+  quotes: [],
 };
 
 const quotesSlice = createSlice({
   name: "quotes",
   initialState,
   reducers: {
+    addQuotes(state, action) {
+      state.quotes = action.payload;
+    },
     addQuote(state, action) {
       state.quotes.push(createQuote(action.payload));
     },
@@ -33,7 +31,8 @@ const quotesSlice = createSlice({
   },
 });
 
-const { addQuote, addComment, sortAscending, sortDescending } = quotesSlice.actions;
+const { addQuotes, addQuote, addComment, sortAscending, sortDescending } =
+  quotesSlice.actions;
 const quotesReducer = quotesSlice.reducer;
 
-export { quotesReducer, addQuote, addComment, sortAscending, sortDescending };
+export { quotesReducer, addQuotes, addQuote, addComment, sortAscending, sortDescending };

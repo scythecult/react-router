@@ -1,6 +1,5 @@
-import { useDispatch } from "react-redux";
-import { addComment } from "../../features/quotes-slice";
-import { useValidation } from "../hooks/hooks";
+import { FIRE_DB_COMMENTS } from "../../constants/fire-db";
+import { useHttp, useValidation } from "../hooks/hooks";
 import { ValidationMessage } from "../UI/ValidationMessage";
 
 import classes from "./NewCommentForm.module.css";
@@ -10,7 +9,7 @@ const MIN_VALUE_LENGTH = 5;
 const isMore = (value) => value.length >= MIN_VALUE_LENGTH;
 
 const NewCommentForm = (props) => {
-  const dispatch = useDispatch();
+  const [postComment] = useHttp({ url: FIRE_DB_COMMENTS, method: "POST" });
   const [comment, hasError, commentIsValid, setComment, setIsTouched] =
     useValidation(isMore);
   const { author } = props;
@@ -23,16 +22,14 @@ const NewCommentForm = (props) => {
     setIsTouched(true);
   };
 
-  const submitFormHandler = (event) => {
-    event.preventDefault();
+  const submitFormHandler = (evt) => {
+    evt.preventDefault();
 
-    if (hasError) return;
+    if (!commentIsValid) return;
 
-    dispatch(addComment({ author, comment }));
+    postComment({ author, comment });
     setComment("");
     setIsTouched(false);
-
-    // send comment to server
   };
 
   const formClasses = hasError ? `${classes.form} ${classes.error}` : classes.form;

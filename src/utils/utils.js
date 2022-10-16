@@ -1,7 +1,11 @@
+const createId = (item = 1945) => {
+  return `${item}${Date.now()}`;
+};
+
 const createQuote = (payload) => {
   return {
     ...payload,
-    id: `${payload.author}${Date.now()}`,
+    id: createId(payload.author),
     comments: [],
   };
 };
@@ -10,4 +14,12 @@ const findItem = (items = [], author = "") => {
   return items.find((item) => item.author.toLowerCase() === author.toLowerCase());
 };
 
-export { createQuote, findItem };
+const transformResponse = (response) => {
+  return Object.values(response).map((value, index) => ({
+    ...value,
+    id: createId(`${value.author}${index}`),
+    comments: [],
+  }));
+};
+
+export { createQuote, findItem, transformResponse };
