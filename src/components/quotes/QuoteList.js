@@ -6,6 +6,7 @@ import { Sorting } from "./Sorting";
 import classes from "./QuoteList.module.css";
 import { sortAscending, sortDescending } from "../../features/quotes-slice";
 import { useState } from "react";
+import NoQuotesFound from "./NoQuotesFound";
 
 export const QuoteList = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export const QuoteList = () => {
     <Sorting handler={sortingHandler} text={"Sort Descending"} />
   );
 
-  return (
+  const quotesContent = quotes.length ? (
     <>
       {sorting}
       <ul className={classes.list}>
@@ -36,9 +37,12 @@ export const QuoteList = () => {
           <QuoteItem key={quote.id} {...quote} />
         ))}
       </ul>
-      <Outlet />
     </>
+  ) : (
+    <NoQuotesFound />
   );
+
+  return <>{quotesContent}</>;
 };
 
 const Quotes = () => {
