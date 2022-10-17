@@ -7,18 +7,14 @@ import classes from "./QuoteList.module.css";
 import { addQuotes, sortAscending, sortDescending } from "../../features/quotes-slice";
 import { useEffect, useState } from "react";
 import NoQuotesFound from "./NoQuotesFound";
-import { useHttp } from "../hooks/hooks";
-import { FIRE_DB_QUOTES } from "../../constants/fire-db";
-import { transformResponse } from "../../utils/utils";
+import { useQuotes } from "../hooks/hooks";
 import { LoadingSpinner } from "../UI/LoadingSpinner";
 
 export const QuoteList = () => {
   const dispatch = useDispatch();
   const { quotes } = useSelector((state) => state.quotes);
   const [isAscending, setIsAscending] = useState(true);
-  const [getQuotes, { isLoading }] = useHttp({
-    url: FIRE_DB_QUOTES,
-  });
+  const [recievedQuotes, isLoading] = useQuotes();
 
   const sortingHandler = () => {
     if (isAscending) {
@@ -31,16 +27,17 @@ export const QuoteList = () => {
   };
 
   useEffect(() => {
-    getQuotes().then((response) => {
-      if (response) {
-        const quotes = transformResponse(response);
-        dispatch(addQuotes(quotes));
-      }
-    });
-  }, []);
+    if (quotes.length) return;
+
+    dispatch(addQuotes(recievedQuotes));
+  }, [dispatch, recievedQuotes, quotes]);
 
   if (isLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (!quotes.length) {
+    return <NoQuotesFound />;
   }
 
   const sorting = isAscending ? (
@@ -49,7 +46,7 @@ export const QuoteList = () => {
     <Sorting handler={sortingHandler} text={"Sort Descending"} />
   );
 
-  const quotesContent = quotes.length ? (
+  return (
     <>
       {sorting}
       <ul className={classes.list}>
@@ -58,11 +55,7 @@ export const QuoteList = () => {
         ))}
       </ul>
     </>
-  ) : (
-    <NoQuotesFound />
   );
-
-  return quotesContent;
 };
 
 const Quotes = () => {

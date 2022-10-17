@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FIRE_DB_QUOTES } from "../../constants/fire-db";
+import { transformResponse } from "../../utils/utils";
 
 const useLoader = ({ hideAfter = 1, redirectTo = "" }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -76,4 +78,26 @@ const useHttp = ({ url, method = "GET" }) => {
   return [fetchData, { postResponse, isError, isLoading }];
 };
 
-export { useLoader, useValidation, useHttp };
+const useQuotes = () => {
+  const [quotes, setQuotes] = useState([]);
+  const [getQuotes, { isLoading }] = useHttp({
+    url: FIRE_DB_QUOTES,
+  });
+
+  useEffect(() => {
+    let wasSended = false;
+
+    getQuotes().then((response) => {
+      if (response && wasSended) {
+        const transformedQuotes = transformResponse(response);
+        setQuotes(transformedQuotes);
+      }
+    });
+
+    return () => (wasSended = true);
+  }, []);
+
+  return [quotes, isLoading];
+};
+
+export { useLoader, useValidation, useHttp, useQuotes };

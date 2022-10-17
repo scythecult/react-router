@@ -11,7 +11,7 @@ const createQuote = (payload) => {
 };
 
 const findItem = (items = [], author = "") => {
-  return items.find((item) => item.author.toLowerCase() === author.toLowerCase());
+  return items.find((item) => item.author.toLowerCase() === author.toLowerCase()) || [];
 };
 
 const transformResponse = (response) => {
