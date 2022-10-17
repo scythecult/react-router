@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FIRE_DB_COMMENTS } from "../../constants/fire-db";
 import { addComments } from "../../features/comments-slice";
-import { useHttp } from "../hooks/hooks";
+import { transformObject } from "../../utils/utils";
+import { useFireDb } from "../hooks/hooks";
 
 import classes from "./Comments.module.css";
 import CommentsList from "./CommentsList";
@@ -13,7 +14,10 @@ const Comments = (props) => {
   const { comments } = useSelector((state) => state.comments);
   const { author } = props;
   const [isAddingComment, setIsAddingComment] = useState(false);
-  const [getComments] = useHttp({ url: FIRE_DB_COMMENTS });
+  const [recievedComments] = useFireDb({
+    url: FIRE_DB_COMMENTS,
+    transform: transformObject,
+  });
   const filteredByAuthor = comments
     .filter((comment) => comment.author === author)
     .map((comment) => comment.comment);
@@ -23,13 +27,10 @@ const Comments = (props) => {
   };
 
   useEffect(() => {
-    getComments().then((response) => {
-      if (response) {
-        const comments = Object.values(response);
-        dispatch(addComments(comments));
-      }
-    });
-  }, []);
+    if (comments.length) return;
+
+    dispatch(addComments(recievedComments));
+  }, [dispatch, recievedComments, comments]);
 
   const commentsContent = filteredByAuthor.length ? (
     <CommentsList comments={filteredByAuthor} />

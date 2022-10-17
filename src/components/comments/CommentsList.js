@@ -5,7 +5,6 @@ const CommentsList = (props) => {
   return (
     <ul className={classes.comments}>
       {props.comments.map((comment, index) => {
-        // console.log(comment);
         return <CommentItem key={`${comment}${index}`} text={comment} />;
       })}
     </ul>

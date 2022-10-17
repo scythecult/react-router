@@ -1,4 +1,6 @@
+import { useDispatch } from "react-redux";
 import { FIRE_DB_COMMENTS } from "../../constants/fire-db";
+import { addComments } from "../../features/comments-slice";
 import { useHttp, useValidation } from "../hooks/hooks";
 import { ValidationMessage } from "../UI/ValidationMessage";
 
@@ -9,7 +11,9 @@ const MIN_VALUE_LENGTH = 5;
 const isMore = (value) => value.length >= MIN_VALUE_LENGTH;
 
 const NewCommentForm = (props) => {
+  const dispatch = useDispatch();
   const [postComment] = useHttp({ url: FIRE_DB_COMMENTS, method: "POST" });
+  const [getComments] = useHttp({ url: FIRE_DB_COMMENTS });
   const [comment, hasError, commentIsValid, setComment, setIsTouched] =
     useValidation(isMore);
   const { author } = props;
@@ -27,7 +31,16 @@ const NewCommentForm = (props) => {
 
     if (!commentIsValid) return;
 
-    postComment({ author, comment });
+    postComment({ author, comment }).then((response) => {
+      if (response) {
+        getComments().then((response) => {
+          if (response) {
+            const comments = Object.values(response);
+            dispatch(addComments(comments));
+          }
+        });
+      }
+    });
     setComment("");
     setIsTouched(false);
   };

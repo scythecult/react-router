@@ -78,26 +78,26 @@ const useHttp = ({ url, method = "GET" }) => {
   return [fetchData, { postResponse, isError, isLoading }];
 };
 
-const useQuotes = () => {
-  const [quotes, setQuotes] = useState([]);
-  const [getQuotes, { isLoading }] = useHttp({
-    url: FIRE_DB_QUOTES,
+const useFireDb = ({ url, transform }) => {
+  const [items, setItems] = useState([]);
+  const [getItems, { isLoading }] = useHttp({
+    url,
   });
 
   useEffect(() => {
     let wasSended = false;
 
-    getQuotes().then((response) => {
+    getItems().then((response) => {
       if (response && wasSended) {
-        const transformedQuotes = transformResponse(response);
-        setQuotes(transformedQuotes);
+        const transformedQuotes = transform(response);
+        setItems(transformedQuotes);
       }
     });
 
     return () => (wasSended = true);
   }, []);
 
-  return [quotes, isLoading];
+  return [items, isLoading];
 };
 
-export { useLoader, useValidation, useHttp, useQuotes };
+export { useLoader, useValidation, useHttp, useFireDb };

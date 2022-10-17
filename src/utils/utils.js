@@ -14,12 +14,14 @@ const findItem = (items = [], author = "") => {
   return items.find((item) => item.author.toLowerCase() === author.toLowerCase()) || [];
 };
 
+const transformObject = (items) => Object.values(items);
+
 const transformResponse = (response) => {
-  return Object.values(response).map((value, index) => ({
+  return transformObject(response).map((value, index) => ({
     ...value,
     id: createId(`${value.author}${index}`),
     comments: [],
   }));
 };
 
-export { createQuote, findItem, transformResponse };
+export { createQuote, findItem, transformResponse, transformObject };
