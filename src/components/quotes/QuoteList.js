@@ -41,7 +41,7 @@ export const QuoteList = () => {
     return <LoadingSpinner />;
   }
 
-  if (!quotes.length) {
+  if (!quotes.length && !isLoading) {
     return <NoQuotesFound />;
   }
 
