@@ -32,10 +32,8 @@ export const QuoteList = () => {
   };
 
   useEffect(() => {
-    if (quotes.length) return;
-
     dispatch(addQuotes(recievedQuotes));
-  }, [dispatch, recievedQuotes, quotes]);
+  }, [dispatch, recievedQuotes]);
 
   if (isLoading) {
     return <LoadingSpinner />;
