@@ -1,7 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FIRE_DB_QUOTES } from "../../constants/fire-db";
-import { transformResponse } from "../../utils/utils";
 
 const useLoader = ({ hideAfter = 1, redirectTo = "" }) => {
   const [isLoading, setIsLoading] = useState(false);

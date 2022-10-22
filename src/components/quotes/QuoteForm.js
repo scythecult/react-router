@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FIRE_DB_QUOTES } from "../../constants/fire-db";
 import { useHttp, useValidation } from "../hooks/hooks";
