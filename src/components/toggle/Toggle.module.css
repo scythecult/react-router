@@ -1,0 +1,48 @@
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.toggle {
+  --height: 30px;
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 60px;
+  min-height: var(--height);
+  background-color: #c6c6c6;
+  border-radius: 24px;
+  border: 1px solid #c6c6c6;
+  transition-property: background-color;
+  transition-duration: 0.2s;
+}
+
+.toggle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+
+.input:checked + .toggle::before {
+  transform: translateX(calc(100% + 2px));
+}
+
+.input:checked + .toggle {
+  background-color: rgb(30, 223, 30);
+}
