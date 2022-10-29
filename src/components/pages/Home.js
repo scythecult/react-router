@@ -1,18 +1,28 @@
 import React from "react";
-import { CompoundToggle, Toggle } from "../toggle/Toggle";
+import { Toggle } from "../toggle/Toggle";
+import { useDispatch } from "react-redux";
+import { switchTheme } from "../../features/theme-slice";
 
-export const Home = () => {
+const Home = () => {
+  const dispatch = useDispatch();
   // сделать разные тогглы 3
   // 1. меняет цветовую тему
   // 2. меняет местами элементы в хедере
   // 3. меняет местам хедер и главную
+  const themeHandler = () => {
+    dispatch(switchTheme());
+  };
+
   return (
     <>
       <p>Welcome to the Quotes</p>
       <p>Render Props and Compound components</p>
-      <CompoundToggle handler={() => console.log("ohuena")}>
-        <Toggle />
-      </CompoundToggle>
+      <Toggle handler={themeHandler}>
+        <Toggle.Title>Theme Switch</Toggle.Title>
+        <Toggle.Button />
+      </Toggle>
     </>
   );
 };
+
+export { Home };

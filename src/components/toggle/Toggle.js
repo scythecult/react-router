@@ -1,9 +1,14 @@
 import React, { useContext } from "react";
-import { ToggleContext } from "../../context/toggle-context";
-
+import { createContext } from "react";
 import classes from "./Toggle.module.css";
 
-const Toggle = () => {
+const ToggleContext = createContext();
+
+const ToggleTitle = ({ children }) => {
+  return <p className={classes.title}>{children}</p>;
+};
+
+const ToggleButton = () => {
   const handler = useContext(ToggleContext);
   const uniqueId = Date.now();
 
@@ -20,7 +25,7 @@ const Toggle = () => {
   );
 };
 
-const CompoundToggle = (props) => {
+const Toggle = (props) => {
   const { handler = () => {} } = props;
   // logic
 
@@ -29,6 +34,7 @@ const CompoundToggle = (props) => {
   );
 };
 
-const RenderToggle = (props) => {};
+Toggle.Button = ToggleButton;
+Toggle.Title = ToggleTitle;
 
-export { CompoundToggle, RenderToggle, Toggle };
+export { Toggle };

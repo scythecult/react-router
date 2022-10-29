@@ -1,11 +1,15 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 
 import classes from "./MainNavigation.module.css";
 
 const Header = () => {
+  const { isLight } = useSelector((state) => state.theme);
+  const themeClasses = isLight ? "" : classes.dark;
+
   return (
-    <header className={classes.header}>
+    <header className={`${classes.header} ${themeClasses}`}>
       <Link to="/" className={classes.logo}>
         Great Quotes
       </Link>
