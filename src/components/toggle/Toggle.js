@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { createContext } from "react";
+import { useSelector } from "react-redux";
 import classes from "./Toggle.module.css";
 
 const ToggleContext = createContext();
@@ -8,8 +9,24 @@ const ToggleTitle = ({ children }) => {
   return <p className={classes.title}>{children}</p>;
 };
 
+const On = ({ children }) => {
+  const { isLight } = useContext(ToggleContext);
+
+  if (!isLight) return null;
+
+  return <p className={classes.title}>{children}</p>;
+};
+
+const Off = ({ children }) => {
+  const { isLight } = useContext(ToggleContext);
+
+  if (isLight) return null;
+
+  return <p className={classes.title}>{children}</p>;
+};
+
 const ToggleButton = () => {
-  const handler = useContext(ToggleContext);
+  const context = useContext(ToggleContext);
   const uniqueId = Date.now();
 
   return (
@@ -18,7 +35,7 @@ const ToggleButton = () => {
         className={`${classes.vh} ${classes.input}`}
         type="checkbox"
         id={`toggle-${uniqueId}`}
-        onChange={handler}
+        onChange={context.handler}
       />
       <label className={classes.toggle} htmlFor={`toggle-${uniqueId}`}></label>
     </>
@@ -26,15 +43,21 @@ const ToggleButton = () => {
 };
 
 const Toggle = (props) => {
-  const { handler = () => {} } = props;
-  // logic
+  const { handler } = props;
+  const { isLight } = useSelector((state) => state.theme);
+
+  const context = useMemo(() => {
+    return { isLight, handler };
+  }, [isLight, handler]);
 
   return (
-    <ToggleContext.Provider value={handler}>{props.children}</ToggleContext.Provider>
+    <ToggleContext.Provider value={context}>{props.children}</ToggleContext.Provider>
   );
 };
 
 Toggle.Button = ToggleButton;
 Toggle.Title = ToggleTitle;
+Toggle.On = On;
+Toggle.Off = Off;
 
 export { Toggle };
