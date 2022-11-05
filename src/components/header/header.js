@@ -5,8 +5,8 @@ import { Link, NavLink } from "react-router-dom";
 import classes from "./MainNavigation.module.css";
 
 const Header = () => {
-  const { isLight } = useSelector((state) => state.theme);
-  const themeClasses = isLight ? "" : classes.dark;
+  const { isDark } = useSelector((state) => state.theme);
+  const themeClasses = isDark ? classes.dark : "";
 
   return (
     <header className={`${classes.header} ${themeClasses}`}>
