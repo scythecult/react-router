@@ -10,19 +10,15 @@ const ToggleTitle = ({ children }) => {
 };
 
 const On = ({ children }) => {
-  const { isLight } = useContext(ToggleContext);
+  const { isOn } = useContext(ToggleContext);
 
-  if (!isLight) return null;
-
-  return <p className={classes.title}>{children}</p>;
+  return isOn ? <p className={classes.title}>{children}</p> : null;
 };
 
 const Off = ({ children }) => {
-  const { isLight } = useContext(ToggleContext);
+  const { isOn } = useContext(ToggleContext);
 
-  if (isLight) return null;
-
-  return <p className={classes.title}>{children}</p>;
+  return isOn ? null : <p className={classes.title}>{children}</p>;
 };
 
 const ToggleButton = () => {
@@ -47,7 +43,7 @@ const Toggle = (props) => {
   const { isLight } = useSelector((state) => state.theme);
 
   const context = useMemo(() => {
-    return { isLight, handler };
+    return { isOn: isLight, handler };
   }, [isLight, handler]);
 
   return (
