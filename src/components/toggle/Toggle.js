@@ -47,10 +47,10 @@ const Toggle = ({ handler, children }) => {
   const context = useMemo(() => {
     return { isOn, handler, setIsOn };
   }, [isOn, handler]);
-
+  // отличие от реализации compound, то что children вызывается
   return (
     <>
-      <ToggleContext.Provider value={context}>{children}</ToggleContext.Provider>
+      <ToggleContext.Provider value={context}>{children(context)}</ToggleContext.Provider>
     </>
   );
 };

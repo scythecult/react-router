@@ -1,16 +1,30 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Toggle } from "../toggle/Toggle";
 import { useDispatch } from "react-redux";
 import { switchTheme } from "../../features/theme-slice";
 
 const DescribeButton = ({ children }) => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  const visibilityStyle = isVisible
+    ? { opacity: 1, transition: "opacity, 0.2s ease", pointerEvents: "all" }
+    : {
+        opacity: 0,
+        transition: "opacity, 0.2s ease",
+        pointerEvents: "none",
+      };
+
   return (
-    <div>
-      <p>Render props in action:</p>
-      {children}
+    <>
+      <div style={visibilityStyle}>
+        <p>Render props in action:</p>
+        {children}
+      </div>
       <hr />
-      <button>click me: </button>
-    </div>
+      <button onClick={() => setIsVisible((isVisible) => !isVisible)}>
+        toggle visibility
+      </button>
+    </>
   );
 };
 
@@ -28,18 +42,20 @@ const Home = () => {
     <>
       <p>Welcome to the Quotes</p>
       <p>Render Props and Compound components</p>
-      <Toggle handler={themeHandler}>
+      {/* <Toggle handler={themeHandler}>
         <Toggle.Title>Theme Switcher</Toggle.Title>
         <Toggle.Off>Switch to light</Toggle.Off>
         <Toggle.On>Switch to dark</Toggle.On>
         <Toggle.Button />
-      </Toggle>
+      </Toggle> */}
       <Toggle handler={() => console.log("checked")}>
-        {
-          <DescribeButton>
-            <Toggle.Button />
-          </DescribeButton>
-        }
+        {() => {
+          return (
+            <DescribeButton>
+              <Toggle.Button />
+            </DescribeButton>
+          );
+        }}
       </Toggle>
     </>
   );
