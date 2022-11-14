@@ -49,12 +49,22 @@ const Home = () => {
         <Toggle.Button />
       </Toggle> */}
       <Toggle handler={() => console.log("checked")}>
-        {() => {
+        {(props) => {
           return (
-            <DescribeButton>
-              <Toggle.Button />
-            </DescribeButton>
+            <>
+              <div>
+                <p>Render props in action:</p>
+                <Toggle.Button />
+              </div>
+              <hr />
+              <button onClick={props.handler}>toggle visibility</button>
+            </>
           );
+          // return (
+          //   <DescribeButton>
+          //     <Toggle.Button />
+          //   </DescribeButton>
+          // );
         }}
       </Toggle>
     </>
